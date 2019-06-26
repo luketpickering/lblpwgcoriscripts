@@ -4,12 +4,12 @@
 #SBATCH --constraint=haswell
 #SBATCH --nodes=1
 #SBATCH --tasks-per-node=64
-#SBATCH --time=1:00:00
+#SBATCH --time=24:00:00
 
 #Job settings:
-TIME_REQ_H=1
+TIME_REQ_H=24
 TIME_REQ_M=$(( TIME_REQ_H * 60 ))
-SYSTLIST="noxsec:nodet"
+SYSTLIST="allsyst"
 SAMPLELIST="ndfd"
 PENALTY="nopen"
 THROWTYPE="start:stat:fake"
@@ -23,10 +23,10 @@ export OMP_PROC_BIND=spread
 #Output settings:
 SYSTLIST_SANIT=$(echo $SYSTLIST | tr ':' '_')
 export OUSERDIR=${USER}
-OUTDIR=/project/projectdirs/dune/users/${OUSERDIR}/LBLAna_Output/$(date "+%Y_%m_%d-%H_%M_%S")/syst_${SYSTLIST_SANIT}/samp_${SAMPLELIST}/pen_${PENALTY}/hie_${HIERARCHY}/${SLURM_JOB_ID}
+OUTDIR=/project/projectdirs/dune/users/${OUSERDIR}/LBLAna_Output/syst_${SYSTLIST_SANIT}/samp_${SAMPLELIST}/pen_${PENALTY}/hie_${HIERARCHY}/$(date "+%Y_%m_%d-%H_%M_%S")/${SLURM_JOB_ID}
 mkdir -p ${OUTDIR}
-SRUNLOGFILE="${OUTDIR}/throws_%t.log"
-#SRUNLOGFILE=/dev/null
+#SRUNLOGFILE="${OUTDIR}/throws_%t.log"
+SRUNLOGFILE=/dev/null
 
 echo "[INFO]: Job writing output to ${OUTDIR} and task logs to ${SRUNLOGFILE}."
 

@@ -24,21 +24,19 @@ STATESTUB="/statefiles/State"
 NTHROWS=1
 
 # Add one to the seed so that the first proc has seed == 1 (seed of 0 uses the time)
-SEED=$(( SLURM_PROCID + ))
+SEED=$(( SLURM_PROCID + 1 ))
 
 OPTS="${SLURM_PROCID} ${STATESTUB} ${FITFILE} ${NTHROWS} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY}"
 echo "[DEBUG]: Sourcing environment @ $(date '+%Y_%m_%d-%H_%M_%S')" 2>&1 | tee -a ${LOGFILE}
 source /opt/CAFAna/CAFAnaEnv.sh 2>&1 | tee -a ${LOGFILE}
 
-echo "[INFO]: df -h /dev/shm" | tee -a ${LOGFILE}
-df -h /dev/shm | tee -a ${LOGFILE}
+echo "[INFO]: df -h ${TMPDIR}" | tee -a ${LOGFILE}
+df -h ${TMPDIR} | tee -a ${LOGFILE}
 
-echo "[INFO]: df -h /tmp" | tee -a ${LOGFILE}
-df -h /tmp | tee -a ${LOGFILE}
 
 export CAFANA_TOTALDURATION_MIN=${TIME_REQ_M}
 export CAFANA_CHKDURATION_MIN=$(( TIME_REQ_M / 10 ))
-export CAFANA_SAFEUNITDURATION_MIN=25
+export CAFANA_SAFEUNITDURATION_MIN=75
 export CAFANA_CHK_SEMAPHORE=${NODETMP}/hadd.smph
 
 CHKSCRIPT_FREQ_S=$(( CAFANA_CHKDURATION_MIN * 60 ))
