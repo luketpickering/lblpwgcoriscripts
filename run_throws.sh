@@ -27,7 +27,7 @@ NTHROWS=1
 # Add one to the seed so that the first proc has seed == 1 (seed of 0 uses the time)
 SEED=$(( SLURM_PROCID + 1 ))
 
-OPTS="${SLURM_PROCID} ${STATESTUB} ${FITFILE} ${NTHROWS} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY}"
+OPTS="${SEED} ${STATESTUB} ${FITFILE} ${NTHROWS} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY}"
 echo "[DEBUG]: Sourcing environment @ $(date '+%Y_%m_%d-%H_%M_%S')" 2>&1 | tee -a ${LOGFILE}
 source /opt/CAFAna/CAFAnaEnv.sh 2>&1 | tee -a ${LOGFILE}
 

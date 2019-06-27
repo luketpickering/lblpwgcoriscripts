@@ -10,6 +10,7 @@ OPTS[SAMPLELIST]="ndfd"
 OPTS[PENALTY]="th13"
 OPTS[HIERARCHY]="1"
 OPTS[UNITSAFETIME_M]=75
+OPTS[TASKSPERNODE]=64
 
 OUTPUTNAME="throws_master.sh"
 
@@ -32,8 +33,15 @@ while [[ ${#} -gt 0 ]]; do
       -N|--nodes)
         if [[ ${#} -lt 2 ]]; then echo "[ERROR]: ${1} expected a value."; exit 1; fi
         OPTS[NNODES]="$2"
-        echo "[OPT]: Requsting ${OPTS[NNODES]} nodes = $(( OPTS[NNODES] * 64 )) tasks."; shift # past argument
+        echo "[OPT]: Requsting ${OPTS[NNODES]} nodes."; shift # past argument
       ;;
+
+      -n|--tasks-per-node)
+        if [[ ${#} -lt 2 ]]; then echo "[ERROR]: ${1} expected a value."; exit 1; fi
+        OPTS[TASKSPERNODE]="$2"
+        echo "[OPT]: Requsting ${OPTS[TASKSPERNODE]} tasks per node."; shift # past argument
+      ;;
+
 
       -S|--systlist)
         if [[ ${#} -lt 2 ]]; then echo "[ERROR]: ${1} expected a value."; exit 1; fi
@@ -73,16 +81,17 @@ while [[ ${#} -gt 0 ]]; do
 
       -?|--help)
       echo "[RUNLIKE] ${SCRIPTNAME}"
-      echo -e "\t-T|--time-req-h  : Allocation time request in hours: default = \"24\""
-      echo -e "\t-q|--qos         : Allocation partition: default = \"standard\""
-      echo -e "\t-N|--nodes       : Allocation number of nodes: default = \"1\", N.B. each node executes 64 tasks in parallel."
-      echo -e "\t-S|--systlist    : Systematic list specifier: default =\"allsyst\""
-      echo -e "\t-e|--samplelist  : Sample and exposure specifier: default = \"ndfd\""
-      echo -e "\t-p|--penalty     : Oscillation penalty specifier: default = \"th13\""
-      echo -e "\t-h|--hierarchy   : Hierarchy specifier: default = \"1\""
-      echo -e "\t-U|--safe-unit-m : Estimated long fit time in minutes: default = \"75\""
-      echo -e "\t-o|--output      : File name to write configured script to."
-      echo -e "\t-?|--help        : Print this message."
+      echo -e "\t-T|--time-req-h     : Allocation time request in hours: default = \"24\""
+      echo -e "\t-q|--qos            : Allocation partition: default = \"standard\""
+      echo -e "\t-N|--nodes          : Allocation number of nodes: default = \"1\"."
+      echo -e "\t-n|--tasks-per-node : Allocations number of tasks per node."
+      echo -e "\t-S|--systlist       : Systematic list specifier: default =\"allsyst\""
+      echo -e "\t-e|--samplelist     : Sample and exposure specifier: default = \"ndfd\""
+      echo -e "\t-p|--penalty        : Oscillation penalty specifier: default = \"th13\""
+      echo -e "\t-h|--hierarchy      : Hierarchy specifier: default = \"1\""
+      echo -e "\t-U|--safe-unit-m    : Estimated long fit time in minutes: default = \"75\""
+      echo -e "\t-o|--output         : File name to write configured script to."
+      echo -e "\t-?|--help           : Print this message."
       exit 0
       ;;
 
@@ -101,7 +110,7 @@ if [ -e ${OUTPUTNAME} ]; then
 fi
 
 cat throws_master.sh.in > configuring.throws_master.sh.in
-for i in QOS TIME_REQ_H NNODES SYSTLIST SAMPLELIST PENALTY HIERARCHY UNITSAFETIME_M; do
+for i in QOS TIME_REQ_H NNODES TASKSPERNODE SYSTLIST SAMPLELIST PENALTY HIERARCHY UNITSAFETIME_M; do
   echo "OPT[${i}] = ${OPTS[${i}]}"
   sed -i "s/__${i}__/${OPTS[${i}]}/g" configuring.throws_master.sh.in
 done
