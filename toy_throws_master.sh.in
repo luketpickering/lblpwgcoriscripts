@@ -4,6 +4,7 @@
 #SBATCH --constraint=haswell
 #SBATCH --nodes=__NNODES__
 #SBATCH --tasks-per-node=__TASKSPERNODE__
+#SBATCH --job-name=__JOBNAME__
 #SBATCH --time=__TIME_REQ_H__:00:00
 
 #Job settings:
@@ -16,6 +17,8 @@ THROWTYPE="start:stat:fake"
 HIERARCHY="__HIERARCHY__"
 OSCVARS="__OSCVARS__"
 UNITSAFETIME_M="__UNITSAFETIME_M__"
+JOBNAME="__JOBNAME__"
+CAFEEXE="__CAFEEXE__"
 
 #OpenMP settings:
 export OMP_NUM_THREADS=1
@@ -24,9 +27,10 @@ export OMP_PROC_BIND=spread
 
 #Output settings:
 SYSTLIST_SANIT=$(echo $SYSTLIST | tr ':' '_' | tr '=' '-')
-OSCVARS_SANIT=$(echo $OSCVARS | tr ':' '_' | tr '=' '-')
+OSCVARS_SANIT=$(echo $OSCVARS | tr ':' '_')
+JOBNAME_SANIT=$(echo $JOBNAME | tr ' ' '_')
 export OUSERDIR=${USER}
-OUTDIR=/project/projectdirs/dune/users/${OUSERDIR}/ToyThrows_Output/syst_${SYSTLIST_SANIT}/osc_${OSCVARS_SANIT}/samp_${SAMPLELIST}/pen_${PENALTY}/hie_${HIERARCHY}/$(date "+%Y_%m_%d-%H_%M_%S")/${SLURM_JOB_ID}
+OUTDIR=/project/projectdirs/dune/users/${OUSERDIR}/ToyThrows_Output/${CAFEEXE}/syst_${SYSTLIST_SANIT}/osc_${OSCVARS_SANIT}/samp_${SAMPLELIST}/pen_${PENALTY}/hie_${HIERARCHY}/${JOBNAME_SANIT}/$(date "+%Y_%m_%d-%H_%M_%S")/${SLURM_JOB_ID}
 mkdir -p ${OUTDIR}
 #SRUNLOGFILE="${OUTDIR}/throws_%t.log"
 SRUNLOGFILE=/dev/null
@@ -45,4 +49,4 @@ srun --output=${SRUNLOGFILE} \
   --module cvmfs \
   --volume="/global/project:/project" \
   --image=${IMG} \
-  ./run_toy_throws.sh ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS}
+  ./run_toy_throws.sh ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS}
