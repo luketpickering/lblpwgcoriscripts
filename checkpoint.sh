@@ -5,13 +5,13 @@ OUTDIR=${2}
 NODETMP=${3}
 CHK_COUNT=0
 
-CHKFILE=${NODETMP}/chk_fit_${SLURM_NODEID}.root
+CHKFILE=${NODETMP}/chk_toy_fit_${SLURM_NODEID}.root
 
 cd ${NODETMP}
 
 function check_live() {
-  nmtt=$(ps aux | grep "make_all_throws" | grep -v "grep" | grep -v "srun" | grep -v "bash" | wc -l)
-  echo "[CHK-INFO]: There are ${nmtt} make_all_throws still running @ $(date '+%Y_%m_%d-%H_%M_%S')"
+  nmtt=$(ps aux | grep "make_toy_throws" | grep -v "grep" | grep -v "srun" | grep -v "bash" | wc -l)
+  echo "[CHK-INFO]: There are ${nmtt} make_toy_throws still running @ $(date '+%Y_%m_%d-%H_%M_%S')"
   if [ "${nmtt}" == "0" ]; then
     echo "[CHK-INFO]: Finished! No processes running, cleaning up /dev/shm and bailing @ $(date '+%Y_%m_%d-%H_%M_%S')"
     rm -f ${CHKFILE}
@@ -19,18 +19,18 @@ function check_live() {
     FILE_COUNT=$(ls -1q ${NODETMP}/fit_*.root 2>/dev/null | wc -l)
     echo "[CHK-INFO]: Found ${FILE_COUNT} output files... hadding"
     touch ${CAFANA_CHK_SEMAPHORE}
-    hadd -k ${CHKFILE} ${NODETMP}/fit_*.root
+    hadd -k ${CHKFILE} ${NODETMP}/toy_fit_*.root
     rm ${CAFANA_CHK_SEMAPHORE}
     
     mkdir -p ${OUTDIR}/
-    echo "[CHK-INFO]: Copying out \"cp ${CHKFILE} ${OUTDIR}/fit_${SLURM_NODEID}.final.root\""
-    cp ${CHKFILE} ${OUTDIR}/fit_${SLURM_NODEID}.final.root
+    echo "[CHK-INFO]: Copying out \"cp ${CHKFILE} ${OUTDIR}/toy_fit_${SLURM_NODEID}.final.root\""
+    cp ${CHKFILE} ${OUTDIR}/toy_fit_${SLURM_NODEID}.final.root
 
     FILE_COUNT=$(ls -1q ${NODETMP}/*.log 2>/dev/null | wc -l)
-    echo "[CHK-INFO]: Copying out \"cp log_${SLURM_NODEID}.final.tar.gz ${OUTDIR}/\""
+    echo "[CHK-INFO]: Copying out \"cp toy_log_${SLURM_NODEID}.final.tar.gz ${OUTDIR}/\""
     # Tar should shut up as itz zipping up the file that its writing out to
-    tar -zcf log_${SLURM_NODEID}.final.tar.gz *.log 1>/dev/null 2>&1
-    cp log_${SLURM_NODEID}.final.tar.gz ${OUTDIR}/
+    tar -zcf toy_log_${SLURM_NODEID}.final.tar.gz *.log 1>/dev/null 2>&1
+    cp toy_log_${SLURM_NODEID}.final.tar.gz ${OUTDIR}/
     rm -rf ${NODETMP}
     exit 0
   fi
@@ -45,9 +45,9 @@ function make_checkpoint() {
   FILE_COUNT=$(ls -1q ${NODETMP}/fit_*.root 2>/dev/null | wc -l)
   echo "[CHK-INFO]: Found ${FILE_COUNT} output files..."
   if [ ${FILE_COUNT} -gt 0 ]; then
-    hadd -k ${CHKFILE} ${NODETMP}/fit_*.root
-    echo "[CHK-INFO]: Copying out \"cp ${CHKFILE} ${OUTDIR}/fit_${SLURM_NODEID}.chk_${CHK_COUNT}.root\""
-    cp ${CHKFILE} ${OUTDIR}/fit_${SLURM_NODEID}.chk_${CHK_COUNT}.root
+    hadd -k ${CHKFILE} ${NODETMP}/toy_fit_*.root
+    echo "[CHK-INFO]: Copying out \"cp ${CHKFILE} ${OUTDIR}/toy_fit_${SLURM_NODEID}.chk_${CHK_COUNT}.root\""
+    cp ${CHKFILE} ${OUTDIR}/toy_fit_${SLURM_NODEID}.chk_${CHK_COUNT}.root
     rm -f ${CHKFILE}
   fi
   rm ${CAFANA_CHK_SEMAPHORE}
@@ -57,9 +57,9 @@ function make_checkpoint() {
   if [ ${FILE_COUNT} -gt 0 ]; then
     # Tar should shut up as itz zipping up the file that its writing out to
     tar -zcf log_${SLURM_NODEID}.chk_${CHK_COUNT}.tar.gz *.log 1>/dev/null 2>&1
-    echo "[CHK-INFO]: Copying out \"cp log_${SLURM_NODEID}.chk_${CHK_COUNT}.tar.gz ${OUTDIR}/\""
-    cp log_${SLURM_NODEID}.chk_${CHK_COUNT}.tar.gz ${OUTDIR}/
-    rm -f log_${SLURM_NODEID}.chk_${CHK_COUNT}.tar.gz
+    echo "[CHK-INFO]: Copying out \"cp toy_log_${SLURM_NODEID}.chk_${CHK_COUNT}.tar.gz ${OUTDIR}/\""
+    cp toy_log_${SLURM_NODEID}.chk_${CHK_COUNT}.tar.gz ${OUTDIR}/
+    rm -f toy_log_${SLURM_NODEID}.chk_${CHK_COUNT}.tar.gz
   fi
   echo "[CHK-INFO]: Done checkpoint ${CHK_COUNT}"
   CHK_COUNT=$(( CHK_COUNT + 1 ))
