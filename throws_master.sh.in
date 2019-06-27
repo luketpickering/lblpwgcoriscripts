@@ -49,4 +49,4 @@ srun --output=${SRUNLOGFILE} \
   --module cvmfs \
   --volume="/global/project:/project" \
   --image=${IMG} \
-  ./run_toy_throws.sh ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS}
+  ./run_throws.sh ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS}
