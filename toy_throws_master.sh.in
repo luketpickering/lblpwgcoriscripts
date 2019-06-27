@@ -1,0 +1,48 @@
+#!/bin/bash
+#SBATCH --account=dune
+#SBATCH --qos=__QOS__
+#SBATCH --constraint=haswell
+#SBATCH --nodes=__NNODES__
+#SBATCH --tasks-per-node=__TASKSPERNODE__
+#SBATCH --time=__TIME_REQ_H__:00:00
+
+#Job settings:
+TIME_REQ_H=__TIME_REQ_H__
+TIME_REQ_M=$(( TIME_REQ_H * 60 ))
+SYSTLIST="__SYSTLIST__"
+SAMPLELIST="__SAMPLELIST__"
+PENALTY="__PENALTY__"
+THROWTYPE="start:stat:fake"
+HIERARCHY="__HIERARCHY__"
+OSCVARS="__OSCVARS__"
+UNITSAFETIME_M="__UNITSAFETIME_M__"
+
+#OpenMP settings:
+export OMP_NUM_THREADS=1
+export OMP_PLACES=threads
+export OMP_PROC_BIND=spread
+
+#Output settings:
+SYSTLIST_SANIT=$(echo $SYSTLIST | tr ':' '_' | tr '=' '-')
+OSCVARS_SANIT=$(echo $OSCVARS | tr ':' '_' | tr '=' '-')
+export OUSERDIR=${USER}
+OUTDIR=/project/projectdirs/dune/users/${OUSERDIR}/ToyThrows_Output/syst_${SYSTLIST_SANIT}/osc_${OSCVARS_SANIT}/samp_${SAMPLELIST}/pen_${PENALTY}/hie_${HIERARCHY}/$(date "+%Y_%m_%d-%H_%M_%S")/${SLURM_JOB_ID}
+mkdir -p ${OUTDIR}
+#SRUNLOGFILE="${OUTDIR}/throws_%t.log"
+SRUNLOGFILE=/dev/null
+
+echo "[INFO]: Job writing output to ${OUTDIR} and task logs to ${SRUNLOGFILE}."
+
+#Container settings:
+#debian based all deps
+IMG="picker24/dune_cafana:SLS_wsf_wdeps"
+#centos based cvmfs
+#IMG="picker24/dune_cafana:SLS_wsf"
+
+             # Tasks handle their own logging
+srun --output=${SRUNLOGFILE} \
+  --cpu_bind=cores shifter \
+  --module cvmfs \
+  --volume="/global/project:/project" \
+  --image=${IMG} \
+  ./run_toy_throws.sh ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS}
