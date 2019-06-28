@@ -53,7 +53,7 @@ while [[ ${#} -gt 0 ]]; do
           echo "[ERROR]: A maximum of 4 threads can be requested per job."
           exit 1
         fi
-        echo "[OPT]: Each task will use ${OPTS[NTHROWS]} OMP threads."; shift # past argument
+        echo "[OPT]: Each task will use ${OPTS[NTHREADS]} OMP threads."; shift # past argument
       ;;
 
       -S|--systlist)
@@ -149,7 +149,7 @@ if [ -e ${OUTPUTNAME} ]; then
 fi
 
 cat throws_master.sh.in > configuring.throws_master.sh.in
-for i in QOS TIME_REQ_H NNODES TASKSPERNODE SYSTLIST SAMPLELIST PENALTY HIERARCHY OSCVARS UNITSAFETIME_M JOBNAME CAFEEXE; do
+for i in QOS TIME_REQ_H NNODES TASKSPERNODE SYSTLIST SAMPLELIST PENALTY HIERARCHY OSCVARS UNITSAFETIME_M JOBNAME CAFEEXE NTHREADS; do
   sed -i "s/__${i}__/${OPTS[${i}]}/g" configuring.throws_master.sh.in
 done
 
