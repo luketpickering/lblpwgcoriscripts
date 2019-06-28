@@ -42,7 +42,7 @@ IMG="picker24/dune_cafana:SLS_wsf_wdeps_0e84ce7"
 #IMG="picker24/dune_cafana:SLS_wsf"
 
              # Tasks handle their own logging
-srun -n __TASKSPERNODE__ -c __NTHREADS__
+srun -n __TASKSPERNODE__ -c __NTHREADS__ \
      --output=${SRUNLOGFILE} \
      --cpu_bind=cores \
   shifter \
