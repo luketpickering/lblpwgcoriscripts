@@ -39,9 +39,10 @@ STATESTUB="/statefiles/State"
 #We use the timing so just set this to 1
 NTHROWS=1
 
-echo "[DEBUG]: Sourcing environment @ $(date '+%Y_%m_%d-%H_%M_%S')" 2>&1 | tee -a ${LOGFILE}
-source /opt/CAFAna/CAFAnaEnv.sh 2>&1 | tee -a ${LOGFILE}
-printenv |  tee -a ${LOGFILE}
+# Environment is already set up in the container already
+# echo "[DEBUG]: Sourcing environment @ $(date '+%Y_%m_%d-%H_%M_%S')" 2>&1 | tee -a ${LOGFILE}
+# source /opt/CAFAna/CAFAnaEnv.sh 2>&1 | tee -a ${LOGFILE}
+printenv | tee -a ${LOGFILE}
 
 echo "[INFO]: df -h ${TMPDIR}" | tee -a ${LOGFILE}
 df -h ${TMPDIR} | tee -a ${LOGFILE}

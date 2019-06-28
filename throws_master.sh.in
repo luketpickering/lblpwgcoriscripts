@@ -21,7 +21,7 @@ JOBNAME="__JOBNAME__"
 CAFEEXE="__CAFEEXE__"
 
 #OpenMP settings:
-export OMP_NUM_THREADS=1
+export OMP_NUM_THREADS=__NTHREADS__
 export OMP_PLACES=threads
 export OMP_PROC_BIND=spread
 

@@ -14,6 +14,7 @@ OPTS[TASKSPERNODE]=64
 OPTS[OSCVARS]="alloscvars"
 OPTS[JOBNAME]="CAFAna_Throws"
 OPTS[CAFEEXE]="make_all_throws"
+OPTS[NTHREADS]="1"
 
 OUTPUTNAME="throws_master.sh"
 
@@ -45,6 +46,15 @@ while [[ ${#} -gt 0 ]]; do
         echo "[OPT]: Requsting ${OPTS[TASKSPERNODE]} tasks per node."; shift # past argument
       ;;
 
+      --num-omp-threads)
+        if [[ ${#} -lt 2 ]]; then echo "[ERROR]: ${1} expected a value."; exit 1; fi
+        OPTS[NTHREADS]="$2"
+        if [ ${OPTS[NTHREADS]} -gt 4 ]; then
+          echo "[ERROR]: A maximum of 4 threads can be requested per job."
+          exit 1
+        fi
+        echo "[OPT]: Each task will use ${OPTS[NTHROWS]} OMP threads."; shift # past argument
+      ;;
 
       -S|--systlist)
         if [[ ${#} -lt 2 ]]; then echo "[ERROR]: ${1} expected a value."; exit 1; fi
@@ -110,6 +120,7 @@ while [[ ${#} -gt 0 ]]; do
       echo -e "\t-q|--qos            : Allocation partition: default = \"standard\""
       echo -e "\t-N|--nodes          : Allocation number of nodes: default = \"1\"."
       echo -e "\t-n|--tasks-per-node : Allocations number of tasks per node."
+      echo -e "\t--num-omp-threads   : Number of OMP threads to use (<=4)."
       echo -e "\t-S|--systlist       : Systematic list specifier: default =\"allsyst\""
       echo -e "\t-e|--samplelist     : Sample and exposure specifier: default = \"ndfd\""
       echo -e "\t-p|--penalty        : Oscillation penalty specifier: default = \"th13\""
