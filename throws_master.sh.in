@@ -3,7 +3,6 @@
 #SBATCH --qos=__QOS__
 #SBATCH --constraint=haswell
 #SBATCH --nodes=__NNODES__
-#SBATCH --tasks-per-node=__TASKSPERNODE__
 #SBATCH --job-name=__JOBNAME__
 #SBATCH --time=__TIME_REQ_H__:__TIME_REQ_EM__:00
 
@@ -21,7 +20,7 @@ CAFEEXE="__CAFEEXE__"
 
 #OpenMP settings:
 export OMP_NUM_THREADS=__NTHREADS__
-export OMP_PLACES=threads
+export OMP_PLACES=cores
 export OMP_PROC_BIND=spread
 
 #Output settings:
@@ -43,9 +42,10 @@ IMG="picker24/dune_cafana:SLS_wsf_wdeps_0e84ce7"
 #IMG="picker24/dune_cafana:SLS_wsf"
 
              # Tasks handle their own logging
-srun --output=${SRUNLOGFILE} \
-  --cpu_bind=cores shifter \
-  --module cvmfs \
-  --volume="/global/project:/project" \
-  --image=${IMG} \
-  ./run_throws.sh ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS}
+srun -n __TASKSPERNODE__ -c __NTHREADS__
+     --output=${SRUNLOGFILE} \
+     --cpu_bind=cores \
+  shifter \
+    --volume="/global/project:/project" \
+    --image=${IMG} \
+    ./run_throws.sh ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS}
