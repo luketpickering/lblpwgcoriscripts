@@ -11,14 +11,8 @@ PENALTY=${8}
 HIERARCHY=${9}
 OSCVARS=${10}
 
-#Checkpointing settings:
-export CAFANA_TOTALDURATION_MIN=${TIME_REQ_M}
-export CAFANA_CHKDURATION_MIN=60
-export CAFANA_SAFEUNITDURATION_MIN=${UNITSAFE_M}
-export CAFANA_CHK_SEMAPHORE=${NODETMP}/hadd.smph
-
-#Checkpoint every half an hour, check NProcs every 3 mins.
-CHKSCRIPT_FREQ_S=$(( 30 * 60 ))
+#Checkpoint 10 times per job.
+CHKSCRIPT_FREQ_S=$(( TIME_REQ_M * 6 ))
 
 # Write all output straight to the shared memory filesystem
 TMPDIR=/dev/shm
@@ -32,6 +26,12 @@ mkdir -p ${NODETMP}
 LOGFILE=${NODETMP}/job_${SLURM_JOB_ID}_n${SLURM_NODEID}_l${SLURM_LOCALID}.log
 FITFILE=${NODETMP}/fit_${SLURM_LOCALID}.root
 
+#Checkpointing settings:
+export CAFANA_TOTALDURATION_MIN=${TIME_REQ_M}
+export CAFANA_CHKDURATION_MIN=$(( CAFANA_TOTALDURATION_MIN / 20 ))
+export CAFANA_SAFEUNITDURATION_MIN=${UNITSAFE_M}
+export CAFANA_CHK_SEMAPHORE=${NODETMP}/hadd.smph
+
 echo "Running process ${SLURM_PROCID} of job ${SLURM_JOB_ID} on node ${SLURM_NODEID} local ID ${SLURM_LOCALID} @ $(date '+%Y_%m_%d-%H_%M_%S')" 2>&1 | tee ${LOGFILE}
 
 STATESTUB="/statefiles/State"
@@ -42,7 +42,7 @@ NTHROWS=1
 # Environment is already set up in the container already
 # echo "[DEBUG]: Sourcing environment @ $(date '+%Y_%m_%d-%H_%M_%S')" 2>&1 | tee -a ${LOGFILE}
 # source /opt/CAFAna/CAFAnaEnv.sh 2>&1 | tee -a ${LOGFILE}
-printenv | tee -a ${LOGFILE}
+#printenv | tee -a ${LOGFILE}
 
 echo "[INFO]: df -h ${TMPDIR}" | tee -a ${LOGFILE}
 df -h ${TMPDIR} | tee -a ${LOGFILE}
