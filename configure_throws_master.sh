@@ -24,7 +24,7 @@ while [[ ${#} -gt 0 ]]; do
       -T|--time-req-h)
         if [[ ${#} -lt 2 ]]; then echo "[ERROR]: ${1} expected a value."; exit 1; fi
         OPTS[TIME_REQ_H]="$2"
-        echo "[OPT]: Requesting ${OPTS[QOS]} hours."; shift # past argument
+        echo "[OPT]: Requesting ${OPTS[TIME_REQ_H]} hours."; shift # past argument
       ;;
 
       -q|--qos)
@@ -139,7 +139,6 @@ fi
 
 cat throws_master.sh.in > configuring.throws_master.sh.in
 for i in QOS TIME_REQ_H NNODES TASKSPERNODE SYSTLIST SAMPLELIST PENALTY HIERARCHY OSCVARS UNITSAFETIME_M JOBNAME CAFEEXE; do
-  echo "OPT[${i}] = ${OPTS[${i}]}"
   sed -i "s/__${i}__/${OPTS[${i}]}/g" configuring.throws_master.sh.in
 done
 

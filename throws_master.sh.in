@@ -30,7 +30,7 @@ SYSTLIST_SANIT=$(echo $SYSTLIST | tr ':' '_' | tr '=' '-')
 OSCVARS_SANIT=$(echo $OSCVARS | tr ':' '_')
 JOBNAME_SANIT=$(echo $JOBNAME | tr ' ' '_')
 export OUSERDIR=${USER}
-OUTDIR=/project/projectdirs/dune/users/${OUSERDIR}/ToyThrows_Output/${CAFEEXE}/syst_${SYSTLIST_SANIT}/osc_${OSCVARS_SANIT}/samp_${SAMPLELIST}/pen_${PENALTY}/hie_${HIERARCHY}/${JOBNAME_SANIT}/$(date "+%Y_%m_%d-%H_%M_%S")/${SLURM_JOB_ID}
+OUTDIR=/project/projectdirs/dune/users/${OUSERDIR}/${JOBNAME_SANIT}/${CAFEEXE}/syst_${SYSTLIST_SANIT}/osc_${OSCVARS_SANIT}/samp_${SAMPLELIST}/pen_${PENALTY}/hie_${HIERARCHY}/$(date "+%Y_%m_%d-%H_%M_%S")/${SLURM_JOB_ID}
 mkdir -p ${OUTDIR}
 #SRUNLOGFILE="${OUTDIR}/throws_%t.log"
 SRUNLOGFILE=/dev/null
@@ -38,8 +38,8 @@ SRUNLOGFILE=/dev/null
 echo "[INFO]: Job writing output to ${OUTDIR} and task logs to ${SRUNLOGFILE}."
 
 #Container settings:
-#debian based all deps
-IMG="picker24/dune_cafana:SLS_wsf_wdeps"
+#debian based all deps Analysis candidate version
+IMG="picker24/dune_cafana:SLS_wsf_wdeps_0e84ce7"
 #centos based cvmfs
 #IMG="picker24/dune_cafana:SLS_wsf"
 

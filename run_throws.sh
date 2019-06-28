@@ -55,7 +55,8 @@ echo "[DEBUG]: Running ${EXENAME}"
 #This script should be checkpointing
 if [ "${SLURM_LOCALID}" == "0" ]; then
      echo "[CHK-INFO]: I am local id 0, backgrounding checkpointing script which should wake up every ${CHKSCRIPT_FREQ_S} s." 2>&1 | tee -a ${LOGFILE}
-    ./checkpoint.sh ${EXENAME} ${CHKSCRIPT_FREQ_S} ${OUTDIR} ${NODETMP} > >(tee -a ${LOGFILE}) 2>&1 &
+     cp checkpoint.sh ${NODETMP}/
+    ${NODETMP}/checkpoint.sh ${EXENAME} ${CHKSCRIPT_FREQ_S} ${OUTDIR} ${NODETMP} > >(tee -a ${LOGFILE}) 2>&1 &
 fi
 
 # Add one to the seed so that the first proc has seed == 1 (seed of 0 uses the time)
