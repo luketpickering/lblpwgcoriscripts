@@ -5,11 +5,10 @@
 #SBATCH --nodes=__NNODES__
 #SBATCH --tasks-per-node=__TASKSPERNODE__
 #SBATCH --job-name=__JOBNAME__
-#SBATCH --time=__TIME_REQ_H__:00:00
+#SBATCH --time=__TIME_REQ_H__:__TIME_REQ_EM__:00
 
 #Job settings:
-TIME_REQ_H=__TIME_REQ_H__
-TIME_REQ_M=$(( TIME_REQ_H * 60 ))
+TIME_REQ_M=__TIME_REQ_M__
 SYSTLIST="__SYSTLIST__"
 SAMPLELIST="__SAMPLELIST__"
 PENALTY="__PENALTY__"

@@ -3,7 +3,9 @@
 declare -A OPTS
 
 OPTS[QOS]="standard"
-OPTS[TIME_REQ_H]=24
+OPTS[TIME_REQ_H]="24"
+OPTS[TIME_REQ_EM]="00"
+OPTS[TIME_REQ_M]=$(( OPTS[TIME_REQ_H] * 60))
 OPTS[NNODES]=1
 OPTS[SYSTLIST]="allsyst"
 OPTS[SAMPLELIST]="ndfd"
@@ -148,8 +150,17 @@ if [ -e ${OUTPUTNAME} ]; then
   exit 1
 fi
 
+if [[ ${OPTS[QOS]} == "debug" ]]; then
+  echo "Adjusting time for debug QOS."
+  OPTS[TIME_REQ_EM]=15
+  OPTS[TIME_REQ_M]=15
+  OPTS[TIME_REQ_H]=0
+else
+  OPTS[TIME_REQ_M]=$(( OPTS[TIME_REQ_H] * 60))
+fi
+
 cat throws_master.sh.in > configuring.throws_master.sh.in
-for i in QOS TIME_REQ_H NNODES TASKSPERNODE SYSTLIST SAMPLELIST PENALTY HIERARCHY OSCVARS UNITSAFETIME_M JOBNAME CAFEEXE NTHREADS; do
+for i in QOS TIME_REQ_EM TIME_REQ_M TIME_REQ_H NNODES TASKSPERNODE SYSTLIST SAMPLELIST PENALTY HIERARCHY OSCVARS UNITSAFETIME_M JOBNAME CAFEEXE NTHREADS; do
   sed -i "s/__${i}__/${OPTS[${i}]}/g" configuring.throws_master.sh.in
 done
 
