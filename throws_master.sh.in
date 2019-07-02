@@ -37,7 +37,7 @@ echo "[INFO]: Job writing output to ${OUTDIR} and task logs to ${SRUNLOGFILE}."
 
 #Container settings:
 #debian based all deps Analysis candidate version
-IMG="picker24/dune_cafana:SLS_wsf_wdeps_0e84ce7"
+IMG="picker24/dune_cafana:SLS_wsf_wdeps_03bf817"
 #centos based cvmfs
 #IMG="picker24/dune_cafana:SLS_wsf"
 
