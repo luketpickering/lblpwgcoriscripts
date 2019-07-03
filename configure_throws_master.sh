@@ -18,7 +18,7 @@ OPTS[JOBNAME]="CAFAna_Throws"
 OPTS[CAFEEXE]="make_all_throws"
 OPTS[NTHREADS]="1"
 OPTS[USEVQUIET]="0"
-OPTS[NARRAY]="0"
+OPTS[ARRAYCMD]=""
 OPTS[USEWRAPPER]="0"
 
 OUTPUTNAME="throws_master.sh"
@@ -55,7 +55,7 @@ while [[ ${#} -gt 0 ]]; do
         if [[ ${#} -lt 2 ]]; then echo "[ERROR]: ${1} expected a value."; exit 1; fi
         NARR=$2
         #remove one as it asks for a 0-index array specifier
-        OPTS[NARRAY]=$(( NARR - 1 ))
+        OPTS[ARRAYCMD]=$(( NARR - 1 ))
         echo "[OPT]: Requsting ${NARR} instances of the job."; shift # past argument
       ;;
 
@@ -184,7 +184,7 @@ else
 fi
 
 cat throws_master.sh.in > configuring.throws_master.sh.in
-for i in QOS TIME_REQ_EM TIME_REQ_M TIME_REQ_H NNODES TASKSPERNODE SYSTLIST SAMPLELIST PENALTY HIERARCHY OSCVARS UNITSAFETIME_M JOBNAME CAFEEXE NTHREADS USEVQUIET NARRAY USEWRAPPER; do
+for i in QOS TIME_REQ_EM TIME_REQ_M TIME_REQ_H NNODES TASKSPERNODE SYSTLIST SAMPLELIST PENALTY HIERARCHY OSCVARS UNITSAFETIME_M JOBNAME CAFEEXE NTHREADS USEVQUIET ARRAYCMD USEWRAPPER; do
   sed -i "s/__${i}__/${OPTS[${i}]}/g" configuring.throws_master.sh.in
 done
 

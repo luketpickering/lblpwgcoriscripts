@@ -5,7 +5,7 @@
 #SBATCH --nodes=__NNODES__
 #SBATCH --job-name=__JOBNAME__
 #SBATCH --time=__TIME_REQ_H__:__TIME_REQ_EM__:00
-#SBATCH --array=0-__NARRAY__
+__ARRAYCMD__
 
 #Job settings:
 TIME_REQ_M=__TIME_REQ_M__
