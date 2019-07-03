@@ -41,8 +41,10 @@ IMG="picker24/dune_cafana:SLS_wsf_wdeps_03bf817"
 #centos based cvmfs
 #IMG="picker24/dune_cafana:SLS_wsf"
 
+NTASKSTOTAL=$(( __TASKSPERNODE__ * __NNODES__ ))
+NCORESPERTASK=$(( 64 / __TASKSPERNODE__ ))
              # Tasks handle their own logging
-srun -n __TASKSPERNODE__ -c __NTHREADS__ \
+srun -n ${NTASKSTOTAL} -c ${NCORESPERTASK} \
      --output=${SRUNLOGFILE} \
      --cpu_bind=cores \
   shifter \

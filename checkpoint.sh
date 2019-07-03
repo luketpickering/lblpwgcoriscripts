@@ -12,6 +12,7 @@ CHKFILE=chk_fit_j${SLURM_JOB_ID}_n${SLURM_NODEID}.root
 
 function check_live() {
   NRELPROCS=$(ps aux | grep "${EXENAME}" | grep -v "grep" | grep -v "srun" | grep -v "bash" | wc -l)
+  cat /proc/meminfo | sed "s/^/[MEM-INFO]: /g"
   echo "[CHK-INFO]: There are ${NRELPROCS} ${EXENAME} still running @ $(date '+%Y_%m_%d-%H_%M_%S')"
   if [ "${NRELPROCS}" == "0" ]; then
     echo "[CHK-INFO]: Finished! No processes running, cleaning up /dev/shm and bailing @ $(date '+%Y_%m_%d-%H_%M_%S')"
