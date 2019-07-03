@@ -18,7 +18,7 @@ OPTS[JOBNAME]="CAFAna_Throws"
 OPTS[CAFEEXE]="make_all_throws"
 OPTS[NTHREADS]="1"
 OPTS[USEVQUIET]="0"
-OPTS[NARRAY]="1"
+OPTS[NARRAY]="0"
 
 OUTPUTNAME="throws_master.sh"
 
@@ -52,8 +52,10 @@ while [[ ${#} -gt 0 ]]; do
 
       -A|--array-tasks)
         if [[ ${#} -lt 2 ]]; then echo "[ERROR]: ${1} expected a value."; exit 1; fi
-        OPTS[NARRAY]="$2"
-        echo "[OPT]: Requsting ${OPTS[NARRAY]} instances of the job."; shift # past argument
+        NARR=$2
+        #remove one as it asks for a 0-index array specifier
+        OPTS[NARRAY]=$(( NARR - 1 ))
+        echo "[OPT]: Requsting ${NARR} instances of the job."; shift # past argument
       ;;
 
       --num-omp-threads)
