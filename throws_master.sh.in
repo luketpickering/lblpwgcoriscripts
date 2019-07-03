@@ -61,7 +61,7 @@ srun -n ${NTASKSTOTAL} -c ${NCORESPERTASK} \
      --output=${SRUNLOGFILE} \
      --cpu_bind=${CPUBINDOPT} \
   shifter \
-    --modules=none
+    --module=none \
     --volume="/global/project:/project" \
     --image=${IMG} \
     ${SCRIPT} ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS}
