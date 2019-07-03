@@ -56,12 +56,21 @@ CPUBINDOPT="cores"
 if [ ${NCORESPERTASK} == 1 ]; then
   CPUBINDOPT="threads"
 fi
-             # Tasks handle their own logging
-srun -n ${NTASKSTOTAL} -c ${NCORESPERTASK} \
-     --output=${SRUNLOGFILE} \
-     --cpu_bind=${CPUBINDOPT} \
-  shifter \
-    --module=none \
-    --volume="/global/project:/project" \
-    --image=${IMG} \
-    ${SCRIPT} ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS}
+
+if [ "__USEWRAPPER__" == "1" ]; then
+  srun -n ${NTASKSTOTAL} -c ${NCORESPERTASK} \
+       --output=${SRUNLOGFILE} \
+       --cpu_bind=${CPUBINDOPT} \
+       --bcast \
+    ./shifter_sleep_wrapper.sh ${IMG} ${SCRIPT} ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS}
+else
+               # Tasks handle their own logging
+  srun -n ${NTASKSTOTAL} -c ${NCORESPERTASK} \
+       --output=${SRUNLOGFILE} \
+       --cpu_bind=${CPUBINDOPT} \
+    shifter \
+      --module=none \
+      --volume="/global/project:/project" \
+      --image=${IMG} \
+      ${SCRIPT} ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS}
+fi

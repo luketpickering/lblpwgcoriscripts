@@ -19,6 +19,7 @@ OPTS[CAFEEXE]="make_all_throws"
 OPTS[NTHREADS]="1"
 OPTS[USEVQUIET]="0"
 OPTS[NARRAY]="0"
+OPTS[USEWRAPPER]="0"
 
 OUTPUTNAME="throws_master.sh"
 
@@ -125,6 +126,11 @@ while [[ ${#} -gt 0 ]]; do
         echo "[OPT]: Will use very quiet node script."
       ;;
 
+      -W|--use-wrapper)
+        OPTS[USEWRAPPER]="1"
+        echo "[OPT]: Will use wrapper node script with short intro sleep."
+      ;;
+
       -o|--output)
         if [[ ${#} -lt 2 ]]; then echo "[ERROR]: ${1} expected a value."; exit 1; fi
         OUTPUTNAME="$2"
@@ -148,6 +154,7 @@ while [[ ${#} -gt 0 ]]; do
       echo -e "\t-J|--job-name       : Name of the job as seen by SLURM and used in output dir structure (default = \"CAFAna_Throws\")."
       echo -e "\t-E|--exe            : Name of the executable to use, can be either \"make_all_throws\" or \"make_toy_throws\". (default = \"make_all_throws\")."
       echo -e "\t-Q|--very-quiet     : Use version of node script that redirects output to /dev/null."
+      echo -e "\t-W|--use-wrapper    : Use version of srun command that calls a shifter wrapper script to sleep before starting to reduce pressure on the shifter image server."
       echo -e "\t-o|--output         : File name to write configured script to."
       echo -e "\t-?|--help           : Print this message."
       exit 0
@@ -177,7 +184,7 @@ else
 fi
 
 cat throws_master.sh.in > configuring.throws_master.sh.in
-for i in QOS TIME_REQ_EM TIME_REQ_M TIME_REQ_H NNODES TASKSPERNODE SYSTLIST SAMPLELIST PENALTY HIERARCHY OSCVARS UNITSAFETIME_M JOBNAME CAFEEXE NTHREADS USEVQUIET NARRAY; do
+for i in QOS TIME_REQ_EM TIME_REQ_M TIME_REQ_H NNODES TASKSPERNODE SYSTLIST SAMPLELIST PENALTY HIERARCHY OSCVARS UNITSAFETIME_M JOBNAME CAFEEXE NTHREADS USEVQUIET NARRAY USEWRAPPER; do
   sed -i "s/__${i}__/${OPTS[${i}]}/g" configuring.throws_master.sh.in
 done
 
