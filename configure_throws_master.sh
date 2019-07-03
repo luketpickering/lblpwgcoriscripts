@@ -17,6 +17,7 @@ OPTS[OSCVARS]="alloscvars"
 OPTS[JOBNAME]="CAFAna_Throws"
 OPTS[CAFEEXE]="make_all_throws"
 OPTS[NTHREADS]="1"
+OPTS[USEVQUIET]="0"
 
 OUTPUTNAME="throws_master.sh"
 
@@ -110,6 +111,11 @@ while [[ ${#} -gt 0 ]]; do
         echo "[OPT]: Will use executable = \"${OPTS[CAFEEXE]}\"."; shift # past argument
       ;;
 
+      -Q|--very-quiet)
+        OPTS[USEVQUIET]="1"
+        echo "[OPT]: Will use very quiet node script."
+      ;;
+
       -o|--output)
         if [[ ${#} -lt 2 ]]; then echo "[ERROR]: ${1} expected a value."; exit 1; fi
         OUTPUTNAME="$2"
@@ -131,6 +137,7 @@ while [[ ${#} -gt 0 ]]; do
       echo -e "\t-U|--safe-unit-m    : Estimated long fit time in minutes: default = \"75\""
       echo -e "\t-J|--job-name       : Name of the job as seen by SLURM and used in output dir structure (default = \"CAFAna_Throws\")."
       echo -e "\t-E|--exe            : Name of the executable to use, can be either \"make_all_throws\" or \"make_toy_throws\". (default = \"make_all_throws\")."
+      echo -e "\t-Q|--very-quiet     : Use version of node script that redirects output to /dev/null."
       echo -e "\t-o|--output         : File name to write configured script to."
       echo -e "\t-?|--help           : Print this message."
       exit 0
@@ -160,7 +167,7 @@ else
 fi
 
 cat throws_master.sh.in > configuring.throws_master.sh.in
-for i in QOS TIME_REQ_EM TIME_REQ_M TIME_REQ_H NNODES TASKSPERNODE SYSTLIST SAMPLELIST PENALTY HIERARCHY OSCVARS UNITSAFETIME_M JOBNAME CAFEEXE NTHREADS; do
+for i in QOS TIME_REQ_EM TIME_REQ_M TIME_REQ_H NNODES TASKSPERNODE SYSTLIST SAMPLELIST PENALTY HIERARCHY OSCVARS UNITSAFETIME_M JOBNAME CAFEEXE NTHREADS USEVQUIET; do
   sed -i "s/__${i}__/${OPTS[${i}]}/g" configuring.throws_master.sh.in
 done
 

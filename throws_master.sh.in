@@ -41,6 +41,11 @@ IMG="picker24/dune_cafana:SLS_wsf_wdeps_03bf817"
 #centos based cvmfs
 #IMG="picker24/dune_cafana:SLS_wsf"
 
+SCRIPTNAME="run_throws.sh"
+if [ "__USEVQUIET__" == "1" ]; then
+  SCRIPTNAME="run_throws_veryquiet.sh"
+fi
+
 NTASKSTOTAL=$(( __TASKSPERNODE__ * __NNODES__ ))
 NCORESPERTASK=$(( 64 / __TASKSPERNODE__ ))
              # Tasks handle their own logging
@@ -50,4 +55,4 @@ srun -n ${NTASKSTOTAL} -c ${NCORESPERTASK} \
   shifter \
     --volume="/global/project:/project" \
     --image=${IMG} \
-    ./run_throws.sh ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS}
+    ./${SCRIPTNAME} ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS}
