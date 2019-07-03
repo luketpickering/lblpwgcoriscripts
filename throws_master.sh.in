@@ -41,13 +41,16 @@ IMG="picker24/dune_cafana:SLS_wsf_wdeps_03bf817"
 #centos based cvmfs
 #IMG="picker24/dune_cafana:SLS_wsf"
 
-SCRIPTNAME="run_throws.sh"
+SCRIPTLOC=$(readlink -f run_throws.sh)
 if [ "__USEVQUIET__" == "1" ]; then
-  SCRIPTNAME="run_throws_veryquiet.sh"
+  SCRIPTLOC=$(readlink -f run_throws_veryquiet.sh)
 fi
 
 NTASKSTOTAL=$(( __TASKSPERNODE__ * __NNODES__ ))
 NCORESPERTASK=$(( 64 / __TASKSPERNODE__ ))
+
+echo "[INFO]: Running ${NTASKSTOTAL} ${SCRIPTLOC} tasks, over __NNODES__, each with ${NCORESPERTASK} dedicated hyperthreads."
+
              # Tasks handle their own logging
 srun -n ${NTASKSTOTAL} -c ${NCORESPERTASK} \
      --output=${SRUNLOGFILE} \
@@ -55,4 +58,4 @@ srun -n ${NTASKSTOTAL} -c ${NCORESPERTASK} \
   shifter \
     --volume="/global/project:/project" \
     --image=${IMG} \
-    ./${SCRIPTNAME} ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS}
+    ${SCRIPTLOC} ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS}
