@@ -5,6 +5,7 @@
 #SBATCH --nodes=__NNODES__
 #SBATCH --job-name=__JOBNAME__
 #SBATCH --time=__TIME_REQ_H__:__TIME_REQ_EM__:00
+#SBATCH --array=0-__NARRAY__
 
 #Job settings:
 TIME_REQ_M=__TIME_REQ_M__
@@ -43,7 +44,7 @@ IMG="picker24/dune_cafana:SLS_wsf_wdeps_03bf817"
 
 SCRIPT="./run_throws.sh"
 if [ "__USEVQUIET__" == "1" ]; then
-SCRIPT="./run_throws_veryquiet.sh"
+  SCRIPT="./run_throws_veryquiet.sh"
 fi
 
 NTASKSTOTAL=$(( __TASKSPERNODE__ * __NNODES__ ))
@@ -51,11 +52,16 @@ NCORESPERTASK=$(( 64 / __TASKSPERNODE__ ))
 
 echo "[INFO]: Running ${NTASKSTOTAL} ${SCRIPT} tasks, over __NNODES__, each with ${NCORESPERTASK} dedicated hyperthreads."
 
+CPUBINDOPT="cores"
+if [ ${NCORESPERTASK} == 1 ]; then
+  CPUBINDOPT="threads"
+fi
              # Tasks handle their own logging
 srun -n ${NTASKSTOTAL} -c ${NCORESPERTASK} \
      --output=${SRUNLOGFILE} \
-     --cpu_bind=cores \
+     --cpu_bind=${CPUBINDOPT} \
   shifter \
+    --modules=none
     --volume="/global/project:/project" \
     --image=${IMG} \
     ${SCRIPT} ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS}

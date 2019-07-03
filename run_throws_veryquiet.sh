@@ -18,7 +18,7 @@ CHKSCRIPT_FREQ_S=$(( TIME_REQ_M * 6 ))
 TMPDIR=/dev/shm
 #Can use your projectdir for debugging, but will be problematic at scale
 #TMPDIR=/project/projectdirs/dune/users/${USER}/jobtmp
-JOBTMP=${TMPDIR}/${SLURM_JOB_ID}
+JOBTMP=${TMPDIR}/${SLURM_JOB_ID}_${SLURM_ARRAY_TASK_ID}
 NODETMP=${JOBTMP}/n_${SLURM_NODEID}
 
 mkdir -p ${NODETMP}
@@ -48,7 +48,11 @@ if [ "${SLURM_LOCALID}" == "0" ]; then
 fi
 
 # Add one to the seed so that the first proc has seed == 1 (seed of 0 uses the time)
-SEED=$(( SLURM_PROCID + 1 ))
+if [ -z ${SLURM_ARRAY_TASK_ID} ]; then
+  export SLURM_ARRAY_TASK_ID=0
+fi
+
+SEED=$(( ( SLURM_ARRAY_TASK_ID * 10000 ) + SLURM_PROCID + 1 ))
 
 if [ "${EXENAME}" == "make_all_throws_fixed_seed" ]; then
 

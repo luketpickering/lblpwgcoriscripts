@@ -18,6 +18,7 @@ OPTS[JOBNAME]="CAFAna_Throws"
 OPTS[CAFEEXE]="make_all_throws"
 OPTS[NTHREADS]="1"
 OPTS[USEVQUIET]="0"
+OPTS[NARRAY]="1"
 
 OUTPUTNAME="throws_master.sh"
 
@@ -47,6 +48,12 @@ while [[ ${#} -gt 0 ]]; do
         if [[ ${#} -lt 2 ]]; then echo "[ERROR]: ${1} expected a value."; exit 1; fi
         OPTS[TASKSPERNODE]="$2"
         echo "[OPT]: Requsting ${OPTS[TASKSPERNODE]} tasks per node."; shift # past argument
+      ;;
+
+      -A|--array-tasks)
+        if [[ ${#} -lt 2 ]]; then echo "[ERROR]: ${1} expected a value."; exit 1; fi
+        OPTS[NARRAY]="$2"
+        echo "[OPT]: Requsting ${OPTS[NARRAY]} instances of the job."; shift # past argument
       ;;
 
       --num-omp-threads)
@@ -128,6 +135,7 @@ while [[ ${#} -gt 0 ]]; do
       echo -e "\t-q|--qos            : Allocation partition: default = \"standard\""
       echo -e "\t-N|--nodes          : Allocation number of nodes: default = \"1\"."
       echo -e "\t-n|--tasks-per-node : Allocations number of tasks per node."
+      echo -e "\t-A|--array-tasks    : Number of job instances to submit (seeds are shifted)."
       echo -e "\t--num-omp-threads   : Number of OMP threads to use (<=4)."
       echo -e "\t-S|--systlist       : Systematic list specifier: default =\"allsyst\""
       echo -e "\t-e|--samplelist     : Sample and exposure specifier: default = \"ndfd\""
@@ -167,7 +175,7 @@ else
 fi
 
 cat throws_master.sh.in > configuring.throws_master.sh.in
-for i in QOS TIME_REQ_EM TIME_REQ_M TIME_REQ_H NNODES TASKSPERNODE SYSTLIST SAMPLELIST PENALTY HIERARCHY OSCVARS UNITSAFETIME_M JOBNAME CAFEEXE NTHREADS USEVQUIET; do
+for i in QOS TIME_REQ_EM TIME_REQ_M TIME_REQ_H NNODES TASKSPERNODE SYSTLIST SAMPLELIST PENALTY HIERARCHY OSCVARS UNITSAFETIME_M JOBNAME CAFEEXE NTHREADS USEVQUIET NARRAY; do
   sed -i "s/__${i}__/${OPTS[${i}]}/g" configuring.throws_master.sh.in
 done
 

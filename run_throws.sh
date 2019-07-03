@@ -18,12 +18,12 @@ CHKSCRIPT_FREQ_S=$(( TIME_REQ_M * 6 ))
 TMPDIR=/dev/shm
 #Can use your projectdir for debugging, but will be problematic at scale
 #TMPDIR=/project/projectdirs/dune/users/${USER}/jobtmp
-JOBTMP=${TMPDIR}/${SLURM_JOB_ID}
+JOBTMP=${TMPDIR}/${SLURM_JOB_ID}_${SLURM_ARRAY_TASK_ID}
 NODETMP=${JOBTMP}/n_${SLURM_NODEID}
 
 mkdir -p ${NODETMP}
 
-LOGFILE=${NODETMP}/job_${SLURM_JOB_ID}_n${SLURM_NODEID}_l${SLURM_LOCALID}.log
+LOGFILE=${NODETMP}/job_${SLURM_JOB_ID}_a${SLURM_ARRAY_TASK_ID}_n${SLURM_NODEID}_l${SLURM_LOCALID}.log
 FITFILE=${NODETMP}/fit_${SLURM_LOCALID}.root
 
 #Checkpointing settings:
@@ -61,8 +61,13 @@ if [ "${SLURM_LOCALID}" == "0" ]; then
 fi
 
 # Add one to the seed so that the first proc has seed == 1 (seed of 0 uses the time)
-SEED=$(( SLURM_PROCID + 1 ))
-echo "[DEBUG]: Seed = ${SEED}"
+
+if [ -z ${SLURM_ARRAY_TASK_ID} ]; then
+  export SLURM_ARRAY_TASK_ID=0
+fi
+
+SEED=$(( ( SLURM_ARRAY_TASK_ID * 100 ) + SLURM_PROCID + 1 ))
+echo "[DEBUG]: Seed = ${SEED}" 2>&1 | tee -a ${LOGFILE}
 
 if [ "${EXENAME}" == "make_all_throws_fixed_seed" ]; then
 
