@@ -23,7 +23,8 @@ NODETMP=${JOBTMP}/n_${SLURM_NODEID}
 
 mkdir -p ${NODETMP}
 
-LOGFILE=${NODETMP}/job_${SLURM_JOB_ID}_n${SLURM_NODEID}_l${SLURM_LOCALID}.log
+# LOGFILE=${NODETMP}/job_${SLURM_JOB_ID}_n${SLURM_NODEID}_l${SLURM_LOCALID}.log
+LOGFILE=/dev/null
 FITFILE=${NODETMP}/fit_${SLURM_LOCALID}.root
 
 #Checkpointing settings:
@@ -44,7 +45,7 @@ EXENAME="${CAFEEXE}_fixed_seed"
 #This script should be checkpointing
 if [ "${SLURM_LOCALID}" == "0" ]; then
      cp checkpoint.sh ${NODETMP}/
-    ${NODETMP}/checkpoint.sh ${EXENAME} ${CHKSCRIPT_FREQ_S} ${OUTDIR} ${NODETMP} >/dev/null 2>&1 &
+    ${NODETMP}/checkpoint.sh ${EXENAME} ${CHKSCRIPT_FREQ_S} ${OUTDIR} ${NODETMP} >${LOGFILE} 2>&1 &
 fi
 
 # Add one to the seed so that the first proc has seed == 1 (seed of 0 uses the time)
@@ -54,7 +55,7 @@ if [ "${EXENAME}" == "make_all_throws_fixed_seed" ]; then
 
   OPTS="${SEED} ${STATESTUB} ${FITFILE} ${NTHROWS} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY}"
 
-  make_all_throws_fixed_seed ${OPTS} >/dev/null 2>&1
+  make_all_throws_fixed_seed ${OPTS} >${LOGFILE} 2>&1
 
 elif [ "${EXENAME}" == "make_toy_throws_fixed_seed" ]; then
 
@@ -63,7 +64,7 @@ elif [ "${EXENAME}" == "make_toy_throws_fixed_seed" ]; then
 
   OPTS="${SEED} ${STATESTUB} ${FITFILE} ${NTHROWS} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${ASIMOV_SET} ${OSCVARS}"
 
-  make_toy_throws_fixed_seed ${OPTS} >/dev/null 2>&1
+  make_toy_throws_fixed_seed ${OPTS} >${LOGFILE} 2>&1
 
 fi
 
