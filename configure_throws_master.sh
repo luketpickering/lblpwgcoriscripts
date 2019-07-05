@@ -55,7 +55,7 @@ while [[ ${#} -gt 0 ]]; do
         if [[ ${#} -lt 2 ]]; then echo "[ERROR]: ${1} expected a value."; exit 1; fi
         NARR=$2
         #remove one as it asks for a 0-index array specifier
-        OPTS[ARRAYCMD]=$(( NARR - 1 ))
+        OPTS[ARRAYCMD]="#SBATCH --array=0-$(( NARR - 1 ))"
         echo "[OPT]: Requsting ${NARR} instances of the job."; shift # past argument
       ;;
 

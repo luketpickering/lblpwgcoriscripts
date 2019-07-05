@@ -17,6 +17,19 @@ PENALTY=${8}
 HIERARCHY=${9}
 OSCVARS=${10}
 
+echo "[VARINFP]: IMG: ${IMG}"
+echo "[VARINFP]: SCRIPT: ${SCRIPT}"
+echo "[VARINFP]: CAFEEXE: ${CAFEEXE}"
+echo "[VARINFP]: TIME_REQ_M: ${TIME_REQ_M}"
+echo "[VARINFP]: UNITSAFE_M: ${UNITSAFE_M}"
+echo "[VARINFP]: OUTDIR: ${OUTDIR}"
+echo "[VARINFP]: SYSTLIST: ${SYSTLIST}"
+echo "[VARINFP]: SAMPLELIST: ${SAMPLELIST}"
+echo "[VARINFP]: THROWTYPE: ${THROWTYPE}"
+echo "[VARINFP]: PENALTY: ${PENALTY}"
+echo "[VARINFP]: HIERARCHY: ${HIERARCHY}"
+echo "[VARINFP]: OSCVARS: ${OSCVARS}"
+
 if [ -z ${SLURM_JOB_ID} ]; then
   export SLURM_JOB_ID=0
 fi
@@ -25,6 +38,7 @@ if [ -z ${SLURM_PROCID} ]; then
   export SLURM_PROCID=0
 fi
 
+#When debugging don't bother checkpointing
 if [ -z ${SLURM_LOCALID} ]; then
   export SLURM_LOCALID=1
 fi
