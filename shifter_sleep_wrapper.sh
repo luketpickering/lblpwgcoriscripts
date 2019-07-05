@@ -21,8 +21,12 @@ if [ -z ${SLURM_JOB_ID} ]; then
   export SLURM_JOB_ID=0
 fi
 
-if [ -z ${SLURM_TASKID} ]; then
-  export SLURM_TASKID=0
+if [ -z ${SLURM_PROCID} ]; then
+  export SLURM_PROCID=0
+fi
+
+if [ -z ${SLURM_LOCALID} ]; then
+  export SLURM_LOCALID=1
 fi
 
 if [ -z ${SLURM_NODEID} ]; then

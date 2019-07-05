@@ -11,6 +11,19 @@ PENALTY=${8}
 HIERARCHY=${9}
 OSCVARS=${10}
 
+
+echo "[VARINFO]: CAFEEXE:${CAFEEXE}" 
+echo "[VARINFO]: TIME_REQ_M:${TIME_REQ_M}" 
+echo "[VARINFO]: UNITSAFE_M:${UNITSAFE_M}" 
+echo "[VARINFO]: OUTDIR:${OUTDIR}" 
+echo "[VARINFO]: SYSTLIST:${SYSTLIST}" 
+echo "[VARINFO]: SAMPLELIST:${SAMPLELIST}"
+echo "[VARINFO]: THROWTYPE:${THROWTYPE}"
+echo "[VARINFO]: PENALTY:${PENALTY}"
+echo "[VARINFO]: HIERARCHY:${HIERARCHY}"
+echo "[VARINFO]: OSCVARS:${OSCVARS}" 
+
+
 #Checkpoint 10 times per job.
 CHKSCRIPT_FREQ_S=$(( TIME_REQ_M * 6 ))
 
@@ -74,7 +87,8 @@ if [ "${EXENAME}" == "make_all_throws_fixed_seed" ]; then
   OPTS="${SEED} ${STATESTUB} ${FITFILE} ${NTHROWS} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY}"
 
   echo "[RUN]: make_all_throws_fixed_seed ${OPTS} @ $(date '+%Y_%m_%d-%H_%M_%S')" 2>&1 | tee -a ${LOGFILE}
-  make_all_throws_fixed_seed ${OPTS} 2>&1 | tee -a ${LOGFILE}
+  #make_all_throws_fixed_seed ${OPTS} 2>&1 | tee -a ${LOGFILE}
+  gdb --args make_all_throws_fixed_seed ${OPTS}
 
 elif [ "${EXENAME}" == "make_toy_throws_fixed_seed" ]; then
 
