@@ -17,6 +17,14 @@ PENALTY=${8}
 HIERARCHY=${9}
 OSCVARS=${10}
 
+if [ -z ${SLURM_JOB_ID} ]; then
+  export SLURM_JOB_ID=0
+fi
+
+if [ -z ${SLURM_TASKID} ]; then
+  export SLURM_TASKID=0
+fi
+
 if [ -z ${SLURM_NODEID} ]; then
   export SLURM_NODEID=0
 fi
@@ -30,11 +38,11 @@ SLEEPTIME_WIDE_S=$(( (SLURM_ARRAY_TASK_ID + SLURM_NODEID) * 20 ))
 SLEEPTIME_FINE_S=$(python -c "import random;print random.randint(0,20)")
 SLEEPTIME_S=$((SLEEPTIME_WIDE_S + SLEEPTIME_FINE_S))
 
-echo "[INFO]: Sleeping for ${SLEEPTIME_S} s: ${SLURM_PROCID}, array ${SLURM_ARRAY_TASK_ID} of job ${SLURM_JOB_ID} on node ${SLURM_NODEID} local ID ${SLURM_LOCALID} @ $(date '+%Y_%m_%d-%H_%M_%S')"
+echo "[INFO]: Sleeping for ${SLEEPTIME_S} s: PROCID: ${SLURM_PROCID}, ARRAYID: ${SLURM_ARRAY_TASK_ID} of job: ${SLURM_JOB_ID} on node: ${SLURM_NODEID} with local ID: ${SLURM_LOCALID} @ $(date '+%Y_%m_%d-%H_%M_%S')"
 
 sleep ${SLEEPTIME_S}
 
-echo "[INFO]: Executing work unit @ $(date '+%Y_%m_%d-%H_%M_%S')"
+echo "[INFO]: Executing work unit @ $(date '+%Y_%m_%d-%H_%M_%S') from $(pwd)"
 
 shifter \
   --module=none \
