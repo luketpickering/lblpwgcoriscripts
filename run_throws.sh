@@ -85,8 +85,7 @@ if [ "${EXENAME}" == "make_all_throws_fixed_seed" ]; then
   OPTS="${SEED} ${STATESTUB} ${FITFILE} ${NTHROWS} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY}"
 
   echo "[RUN]: make_all_throws_fixed_seed ${OPTS} @ $(date '+%Y_%m_%d-%H_%M_%S')" 2>&1 | tee -a ${LOGFILE}
-  #make_all_throws_fixed_seed ${OPTS} 2>&1 | tee -a ${LOGFILE}
-  gdb --args make_all_throws_fixed_seed ${OPTS}
+  make_all_throws_fixed_seed ${OPTS} 2>&1 | tee -a ${LOGFILE}
 
 elif [ "${EXENAME}" == "make_toy_throws_fixed_seed" ]; then
 
