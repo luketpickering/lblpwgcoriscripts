@@ -18,6 +18,7 @@ OSCVARS="__OSCVARS__"
 UNITSAFETIME_M="__UNITSAFETIME_M__"
 JOBNAME="__JOBNAME__"
 CAFEEXE="__CAFEEXE__"
+SEED_START="__SEED_START__"
 
 #OpenMP settings:
 export OMP_NUM_THREADS=__NTHREADS__
@@ -62,7 +63,7 @@ if [ "__USEWRAPPER__" == "1" ]; then
        --output=${SRUNLOGFILE} \
        --cpu_bind=${CPUBINDOPT} \
        --bcast \
-    ./shifter_sleep_wrapper.sh ${IMG} ${SCRIPT} ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS}
+    ./shifter_sleep_wrapper.sh ${IMG} ${SCRIPT} ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS} ${SEED_START}
 else
                # Tasks handle their own logging
   srun -n ${NTASKSTOTAL} -c ${NCORESPERTASK} \
@@ -72,5 +73,5 @@ else
       --module=none \
       --volume="/global/project:/project" \
       --image=${IMG} \
-      ${SCRIPT} ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS}
+      ${SCRIPT} ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS} ${SEED_START}
 fi

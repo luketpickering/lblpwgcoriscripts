@@ -10,6 +10,7 @@ THROWTYPE=${7}
 PENALTY=${8}
 HIERARCHY=${9}
 OSCVARS=${10}
+SEED_START=${11}
 
 echo "[VARINFO]: CAFEEXE: ${CAFEEXE}"
 echo "[VARINFO]: TIME_REQ_M: ${TIME_REQ_M}"
@@ -21,6 +22,7 @@ echo "[VARINFO]: THROWTYPE: ${THROWTYPE}"
 echo "[VARINFO]: PENALTY: ${PENALTY}"
 echo "[VARINFO]: HIERARCHY: ${HIERARCHY}"
 echo "[VARINFO]: OSCVARS: ${OSCVARS}"
+echo "[VARINFO]: SEED_START: ${SEED_START}"
 
 #Checkpoint 10 times per job.
 CHKSCRIPT_FREQ_S=$(( TIME_REQ_M * 6 ))
@@ -77,7 +79,7 @@ if [ -z ${SLURM_ARRAY_TASK_ID} ]; then
   export SLURM_ARRAY_TASK_ID=0
 fi
 
-SEED=$(( ( SLURM_ARRAY_TASK_ID * 100 ) + SLURM_PROCID + 1 ))
+SEED=$(( SEED_START + ( SLURM_ARRAY_TASK_ID * 100 ) + SLURM_PROCID + 1 ))
 echo "[DEBUG]: Seed = ${SEED}" 2>&1 | tee -a ${LOGFILE}
 
 if [ "${EXENAME}" == "make_all_throws_fixed_seed" ]; then
