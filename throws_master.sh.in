@@ -29,8 +29,9 @@ export OMP_PROC_BIND=spread
 SYSTLIST_SANIT=$(echo $SYSTLIST | tr ':' '_' | tr '=' '-')
 OSCVARS_SANIT=$(echo $OSCVARS | tr ':' '_')
 JOBNAME_SANIT=$(echo $JOBNAME | tr ' ' '_')
+SAMPLE_SANIT=$(echo $SAMPLELIST | tr ':' '_')
 export OUSERDIR=${USER}
-OUTDIR=/project/projectdirs/dune/users/${OUSERDIR}/CAFAnaJobOutput/${JOBNAME_SANIT}/syst_${SYSTLIST_SANIT}/osc_${OSCVARS_SANIT}/samp_${SAMPLELIST}/pen_${PENALTY}/hie_${HIERARCHY}/$(date "+%Y_%m_%d-%H_%M_%S")/${SLURM_JOB_ID}
+OUTDIR=/project/projectdirs/dune/users/${OUSERDIR}/CAFAnaJobOutput/${JOBNAME_SANIT}/syst_${SYSTLIST_SANIT}/osc_${OSCVARS_SANIT}/samp_${SAMPLE_SANIT}/pen_${PENALTY}/hie_${HIERARCHY}/$(date "+%Y_%m_%d-%H_%M_%S")/${SLURM_JOB_ID}
 mkdir -p ${OUTDIR}
 #SRUNLOGFILE="${OUTDIR}/throws_%t.log"
 SRUNLOGFILE=/dev/null
