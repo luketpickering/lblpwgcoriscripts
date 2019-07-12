@@ -136,7 +136,7 @@ while [[ ${#} -gt 0 ]]; do
         if [[ ${#} -lt 2 ]]; then echo "[ERROR]: ${1} expected a value."; exit 1; fi
         FIRST_SEED="$2"
         OPTS[SEED_START]="$(( FIRST_SEED - 1 ))"
-        echo "[OPT]: Will start proc seeds from \"$FIRST_SEED}\"."; shift # past argument
+        echo "[OPT]: Will start proc seeds from \"${FIRST_SEED}\"."; shift # past argument
       ;;
 
       -o|--output)
