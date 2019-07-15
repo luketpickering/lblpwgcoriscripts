@@ -110,6 +110,7 @@ while [[ ${#} -gt 0 ]]; do
       -J|--job-name)
         if [[ ${#} -lt 2 ]]; then echo "[ERROR]: ${1} expected a value."; exit 1; fi
         OPTS[JOBNAME]="$2"
+        OUTPUTNAME="${2}.sh"
         echo "[OPT]: Will name job = \"${OPTS[JOBNAME]}\"."; shift # past argument
       ;;
 
