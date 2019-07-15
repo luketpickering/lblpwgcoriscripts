@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --account=dune
 #SBATCH --qos=__QOS__
-#SBATCH --constraint=haswell
+#SBATCH --constraint=__CONSTRAINT__
 #SBATCH --nodes=__NNODES__
 #SBATCH --job-name=__JOBNAME__
 #SBATCH --time=__TIME_REQ_H__:__TIME_REQ_EM__:00
@@ -49,14 +49,18 @@ if [ "__USEVQUIET__" == "1" ]; then
 fi
 
 NTASKSTOTAL=$(( __TASKSPERNODE__ * __NNODES__ ))
-NCORESPERTASK=$(( 64 / __TASKSPERNODE__ ))
-
-echo "[INFO]: Running ${NTASKSTOTAL} ${SCRIPT} tasks, over __NNODES__, each with ${NCORESPERTASK} dedicated hyperthreads."
-
-CPUBINDOPT="cores"
-if [ ${NCORESPERTASK} == 1 ]; then
-  CPUBINDOPT="threads"
+if [ "__CONSTRAINT__" == "haswell" ]; then
+  NCORESPERTASK=$(( 64 / __TASKSPERNODE__ ))
+  CPUBINDOPT="cores"
+  if [ "${NCORESPERTASK}" == "1" ]; then
+    CPUBINDOPT="threads"
+  fi
+elif [ "__CONSTRAINT__" == "knl" ]; then
+  NCORESPERTASK=$(( (68*4) / __TASKSPERNODE__ ))
+  CPUBINDOPT="cores"
 fi
+
+echo "[INFO]: Running ${NTASKSTOTAL} ${SCRIPT} tasks, over __NNODES__, each with ${NCORESPERTASK} dedicated hyperthreads. cpu binding set to ${CPUBINDOPT}"
 
 if [ "__USEWRAPPER__" == "1" ]; then
   srun -n ${NTASKSTOTAL} -c ${NCORESPERTASK} \

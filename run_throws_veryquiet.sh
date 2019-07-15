@@ -10,6 +10,7 @@ THROWTYPE=${7}
 PENALTY=${8}
 HIERARCHY=${9}
 OSCVARS=${10}
+SEED_START=${11}
 
 #Checkpoint 10 times per job.
 CHKSCRIPT_FREQ_S=$(( TIME_REQ_M * 6 ))
@@ -23,8 +24,8 @@ NODETMP=${JOBTMP}/n_${SLURM_NODEID}
 
 mkdir -p ${NODETMP}
 
-LOGFILE=/dev/null
 FITFILE=${NODETMP}/fit_${SLURM_LOCALID}.root
+LOGFILE=/dev/null
 
 #Checkpointing settings:
 export CAFANA_TOTALDURATION_MIN=${TIME_REQ_M}
@@ -38,6 +39,9 @@ STATESTUB="/statefiles/State"
 NTHROWS=1
 
 # Environment is already set up in the container already
+# echo "[DEBUG]: Sourcing environment @ $(date '+%Y_%m_%d-%H_%M_%S')" 2>&1 | tee -a ${LOGFILE}
+# source /opt/CAFAna/CAFAnaEnv.sh 2>&1 | tee -a ${LOGFILE}
+#printenv | tee -a ${LOGFILE}
 
 EXENAME="${CAFEEXE}_fixed_seed"
 
@@ -48,11 +52,12 @@ if [ "${SLURM_LOCALID}" == "0" ]; then
 fi
 
 # Add one to the seed so that the first proc has seed == 1 (seed of 0 uses the time)
+
 if [ -z ${SLURM_ARRAY_TASK_ID} ]; then
   export SLURM_ARRAY_TASK_ID=0
 fi
 
-SEED=$(( ( SLURM_ARRAY_TASK_ID * 10000 ) + SLURM_PROCID + 1 ))
+SEED=$(( SEED_START + ( SLURM_ARRAY_TASK_ID * 100 ) + SLURM_PROCID + 1 ))
 
 if [ "${EXENAME}" == "make_all_throws_fixed_seed" ]; then
 
