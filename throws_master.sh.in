@@ -57,11 +57,18 @@ if [ "__CONSTRAINT__" == "haswell" ]; then
     CPUBINDOPT="threads"
   fi
 elif [ "__CONSTRAINT__" == "knl" ]; then
-  NCORESPERTASK=$(( (68*4) / __TASKSPERNODE__ ))
+#  Actually doing the math, but stacking may end up odd if you let it floor
+#  NCORESPERTASK=$(( (68*4) / __TASKSPERNODE__ ))
+
+  if [ __TASKSPERNODE__ -lt 35 ]; then
+    NCORESPERTASK=8
+  else
+    NCORESPERTASK=4
+  fi
   CPUBINDOPT="cores"
 fi
 
-echo "[INFO]: Running ${NTASKSTOTAL} ${SCRIPT} tasks, over __NNODES__, each with ${NCORESPERTASK} dedicated hyperthreads. cpu binding set to ${CPUBINDOPT}"
+echo "[INFO]: Running ${NTASKSTOTAL} ${SCRIPT} tasks, over __NNODES__, each with ${NCORESPERTASK} dedicated hyperthreads (execution using __NTHREADS__ threads). cpu binding set to ${CPUBINDOPT}"
 
 if [ "__USEWRAPPER__" == "1" ]; then
   srun -n ${NTASKSTOTAL} -c ${NCORESPERTASK} \

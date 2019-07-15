@@ -45,7 +45,7 @@ export CAFANA_CHKDURATION_MIN=$(( CAFANA_TOTALDURATION_MIN / 20 ))
 export CAFANA_SAFEUNITDURATION_MIN=${UNITSAFETIME_M}
 export CAFANA_CHK_SEMAPHORE=${NODETMP}/hadd.smph
 
-echo "Running process ${SLURM_PROCID}, array ${SLURM_ARRAY_TASK_ID} of job ${SLURM_JOB_ID} on node ${SLURM_NODEID} local ID ${SLURM_LOCALID} @ $(date '+%Y_%m_%d-%H_%M_%S')" 2>&1 | tee ${LOGFILE}
+echo "Running process ${SLURM_PROCID}, array ${SLURM_ARRAY_TASK_ID} of job ${SLURM_JOB_ID} on node ${SLURM_NODEID} local ID ${SLURM_LOCALID} with ${OMP_NUM_THREADS} threads per proc @ $(date '+%Y_%m_%d-%H_%M_%S')" 2>&1 | tee ${LOGFILE}
 
 STATESTUB="/statefiles/State"
 
