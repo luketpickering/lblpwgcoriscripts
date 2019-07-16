@@ -22,6 +22,7 @@ OPTS[ARRAYCMD]=""
 OPTS[USEWRAPPER]="0"
 OPTS[SEED_START]="0"
 OPTS[CONSTRAINT]="haswell"
+OPTS[IMAGE]="picker24/dune_cafana:SLS_wsf_wdeps_03bf817"
 
 OUTPUTNAME="throws_master.sh"
 
@@ -134,6 +135,12 @@ while [[ ${#} -gt 0 ]]; do
         echo "[OPT]: Will use wrapper node script with short intro sleep."
       ;;
 
+      -I|--image)
+        if [[ ${#} -lt 2 ]]; then echo "[ERROR]: ${1} expected a value."; exit 1; fi
+        OPTS[IMAGE]="$2"
+        echo "[OPT]: Will run jobs with image=\"${OPTS[IMAGE]}\"."; shift # past argument
+      ;;
+
       -K|--use-knl)
         OPTS[CONSTRAINT]="knl"
         echo "[OPT]: Will use knl nodes."
@@ -171,6 +178,7 @@ while [[ ${#} -gt 0 ]]; do
       echo -e "\t-Q|--very-quiet     : Use version of node script that redirects output to /dev/null."
       echo -e "\t-W|--use-wrapper    : Use version of srun command that calls a shifter wrapper script to sleep before starting to reduce pressure on the shifter image server."
       echo -e "\t-K|--use-knl        : Constrain jobs to run on KNL nodes."
+      echo -e "\t-I|--image          : Shifter image declaration to use."
       echo -e "\t--seed-start        : Start process seeds from this number rather than always starting from 1."
       echo -e "\t-o|--output         : File name to write configured script to."
       echo -e "\t-?|--help           : Print this message."
@@ -201,7 +209,7 @@ else
 fi
 
 cat throws_master.sh.in > configuring.throws_master.sh.in
-for i in QOS TIME_REQ_EM TIME_REQ_M TIME_REQ_H NNODES TASKSPERNODE SYSTLIST SAMPLELIST PENALTY HIERARCHY OSCVARS UNITSAFETIME_M JOBNAME CAFEEXE NTHREADS USEVQUIET ARRAYCMD USEWRAPPER SEED_START CONSTRAINT; do
+for i in QOS TIME_REQ_EM TIME_REQ_M TIME_REQ_H NNODES TASKSPERNODE SYSTLIST SAMPLELIST PENALTY HIERARCHY OSCVARS UNITSAFETIME_M JOBNAME CAFEEXE NTHREADS USEVQUIET ARRAYCMD USEWRAPPER SEED_START CONSTRAINT IMAGE; do
   sed -i "s/__${i}__/${OPTS[${i}]}/g" configuring.throws_master.sh.in
 done
 

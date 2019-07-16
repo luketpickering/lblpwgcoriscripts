@@ -4,6 +4,8 @@
 #SBATCH --constraint=__CONSTRAINT__
 #SBATCH --nodes=__NNODES__
 #SBATCH --job-name=__JOBNAME__
+#SBATCH --image=__IMAGE__
+#SBATCH --volume=/global/project:/project
 #SBATCH --time=__TIME_REQ_H__:__TIME_REQ_EM__:00
 __ARRAYCMD__
 
@@ -37,12 +39,6 @@ mkdir -p ${OUTDIR}
 SRUNLOGFILE=/dev/null
 
 echo "[INFO]: Job writing output to ${OUTDIR} and task logs to ${SRUNLOGFILE}."
-
-#Container settings:
-#debian based all deps Analysis candidate version
-IMG="picker24/dune_cafana:SLS_wsf_wdeps_03bf817"
-#centos based cvmfs
-#IMG="picker24/dune_cafana:SLS_wsf"
 
 SCRIPT="./run_throws.sh"
 if [ "__USEVQUIET__" == "1" ]; then
@@ -83,7 +79,5 @@ else
        --cpu_bind=${CPUBINDOPT} \
     shifter \
       --module=none \
-      --volume="/global/project:/project" \
-      --image=${IMG} \
       ${SCRIPT} ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS} ${SEED_START}
 fi
