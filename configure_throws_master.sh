@@ -210,7 +210,7 @@ fi
 
 cat throws_master.sh.in > configuring.throws_master.sh.in
 for i in QOS TIME_REQ_EM TIME_REQ_M TIME_REQ_H NNODES TASKSPERNODE SYSTLIST SAMPLELIST PENALTY HIERARCHY OSCVARS UNITSAFETIME_M JOBNAME CAFEEXE NTHREADS USEVQUIET ARRAYCMD USEWRAPPER SEED_START CONSTRAINT IMAGE; do
-  sed -i "s/__${i}__/${OPTS[${i}]}/g" configuring.throws_master.sh.in
+  sed -i "s|__${i}__|${OPTS[${i}]}|g" configuring.throws_master.sh.in
 done
 
 mv configuring.throws_master.sh.in ${OUTPUTNAME}
