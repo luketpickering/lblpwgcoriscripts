@@ -66,18 +66,10 @@ fi
 
 echo "[INFO]: Running ${NTASKSTOTAL} ${SCRIPT} tasks, over __NNODES__, each with ${NCORESPERTASK} dedicated hyperthreads (execution using __NTHREADS__ threads). cpu binding set to ${CPUBINDOPT}"
 
-if [ "__USEWRAPPER__" == "1" ]; then
-  srun -n ${NTASKSTOTAL} -c ${NCORESPERTASK} \
-       --output=${SRUNLOGFILE} \
-       --cpu_bind=${CPUBINDOPT} \
-       --bcast \
-    ./shifter_sleep_wrapper.sh ${IMG} ${SCRIPT} ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS} ${SEED_START}
-else
                # Tasks handle their own logging
-  srun -n ${NTASKSTOTAL} -c ${NCORESPERTASK} \
-       --output=${SRUNLOGFILE} \
-       --cpu_bind=${CPUBINDOPT} \
-    shifter \
-      --module=none \
-      ${SCRIPT} ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS} ${SEED_START}
-fi
+srun -n ${NTASKSTOTAL} -c ${NCORESPERTASK} \
+     --output=${SRUNLOGFILE} \
+     --cpu_bind=${CPUBINDOPT} \
+  shifter \
+    --module=none \
+    ${SCRIPT} ${CAFEEXE} ${TIME_REQ_M} ${UNITSAFETIME_M} ${OUTDIR} ${SYSTLIST} ${SAMPLELIST} ${THROWTYPE} ${PENALTY} ${HIERARCHY} ${OSCVARS} ${SEED_START}
