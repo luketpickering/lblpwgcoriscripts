@@ -4,7 +4,7 @@ TIME=48
 RESERVATION=dunelbl
 NUMPROCS=60
 NUMTHRDS=2
-SAFETIME=180
+SAFETIME=250
 
 ## 7 Year, no penalty
 ./configure_throws_master.sh \
