@@ -8,7 +8,7 @@ SAFETIME=250
 
 ## 7 Year, no penalty
 ./configure_throws_master.sh \
-  -T ${TIME} \
+  -T ${TIME} -K \
   -q regular \
   -R ${RESERVATION} \
   -N 250 -n ${NUMPROCS} --num-omp-threads ${NUMTHRDS} \
@@ -23,7 +23,7 @@ SAFETIME=250
 
 ## 7 Year, th13 penalty
 ./configure_throws_master.sh \
-  -T ${TIME} \
+  -T ${TIME} -K \
   -q regular \
   -R ${RESERVATION} \
   -N 550 -n ${NUMPROCS} --num-omp-threads ${NUMTHRDS} \
@@ -38,7 +38,7 @@ SAFETIME=250
 
 ## 10 Year, no penalty
 ./configure_throws_master.sh \
-  -T ${TIME} \
+  -T ${TIME} -K \
   -q regular \
   -R ${RESERVATION} \
   -N 300 -n ${NUMPROCS} --num-omp-threads ${NUMTHRDS} \
@@ -53,7 +53,7 @@ SAFETIME=250
 
 ## 10 Year, th13 penalty
 ./configure_throws_master.sh \
-  -T ${TIME} \
+  -T ${TIME} -K \
   -q regular \
   -R ${RESERVATION} \
   -N 300 -n ${NUMPROCS} --num-omp-threads ${NUMTHRDS} \
@@ -69,7 +69,7 @@ SAFETIME=250
 
 ## 15 Year, no penalty
 ./configure_throws_master.sh \
-  -T ${TIME} \
+  -T ${TIME} -K \
   -q regular \
   -R ${RESERVATION} \
   -N 350 -n ${NUMPROCS} --num-omp-threads ${NUMTHRDS} \
@@ -84,7 +84,7 @@ SAFETIME=250
 
 ## 15 Year, th13 penalty
 ./configure_throws_master.sh \
-  -T ${TIME} \
+  -T ${TIME} -K \
   -q regular \
   -R ${RESERVATION} \
   -N 350 -n ${NUMPROCS} --num-omp-threads ${NUMTHRDS} \
@@ -99,7 +99,7 @@ SAFETIME=250
 
 ## 10 Year, th13 penalty, Inverted hierarchy
 ./configure_throws_master.sh \
-  -T ${TIME} \
+  -T ${TIME} -K \
   -q regular \
   -R ${RESERVATION} \
   -N 825 -n ${NUMPROCS} --num-omp-threads ${NUMTHRDS} \
