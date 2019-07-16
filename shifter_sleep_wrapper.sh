@@ -54,10 +54,10 @@ if [ -z ${SLURM_ARRAY_TASK_ID} ]; then
 fi
 
 #Jobs
-SLEEP_RANGE_S=5
-SLEEPTIME_WIDE_S=$(( (SLURM_ARRAY_TASK_ID + SLURM_NODEID) * SLEEP_RANGE_S ))
-SLEEPTIME_FINE_S=$(python -c "import random;print random.randint(0,${SLEEP_RANGE_S})")
-SLEEPTIME_S=$((SLEEPTIME_WIDE_S + SLEEPTIME_FINE_S))
+SLEEP_RANGE_MS=200
+SLEEPTIME_WIDE_MS=$(( (SLURM_ARRAY_TASK_ID + SLURM_NODEID) * SLEEP_RANGE_S ))
+SLEEPTIME_FINE_MS=$(python -c "import random;print random.randint(0,${SLEEP_RANGE_MS})")
+SLEEPTIME_S=$(python -c "print (${SLEEPTIME_WIDE_MS} + ${SLEEPTIME_FINE_MS})*1E-3;")
 
 echo "[INFO]: Sleeping for ${SLEEPTIME_S} s: PROCID: ${SLURM_PROCID}, ARRAYID: ${SLURM_ARRAY_TASK_ID} of job: ${SLURM_JOB_ID} on node: ${SLURM_NODEID} with local ID: ${SLURM_LOCALID} @ $(date '+%Y_%m_%d-%H_%M_%S')"
 
