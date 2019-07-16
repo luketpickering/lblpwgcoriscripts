@@ -22,6 +22,7 @@ OPTS[ARRAYCMD]=""
 OPTS[SEED_START]="0"
 OPTS[CONSTRAINT]="haswell"
 OPTS[IMAGE]="picker24/dune_cafana:SLS_wsf_wdeps_03bf817"
+OPTS[RESERVECMD]=""
 
 OUTPUTNAME="throws_master.sh"
 
@@ -59,6 +60,14 @@ while [[ ${#} -gt 0 ]]; do
         #remove one as it asks for a 0-index array specifier
         OPTS[ARRAYCMD]="#SBATCH --array=0-$(( NARR - 1 ))"
         echo "[OPT]: Requsting ${NARR} instances of the job."; shift # past argument
+      ;;
+
+      -R|--reservation)
+        if [[ ${#} -lt 2 ]]; then echo "[ERROR]: ${1} expected a value."; exit 1; fi
+        RSRV=$2
+        #remove one as it asks for a 0-index array specifier
+        OPTS[RESERVECMD]="#SBATCH --reservation=${RSRV}"
+        echo "[OPT]: Requsting job be assigned ${RSRV} reservation."; shift # past argument
       ;;
 
       --num-omp-threads)
@@ -160,6 +169,7 @@ while [[ ${#} -gt 0 ]]; do
       echo -e "\t-N|--nodes          : Allocation number of nodes: default = \"1\"."
       echo -e "\t-n|--tasks-per-node : Allocations number of tasks per node."
       echo -e "\t-A|--array-tasks    : Number of job instances to submit (seeds are shifted)."
+      echo -e "\t-R|--reservation    : If your job should run in a reservation use this to add the SBATCH option."
       echo -e "\t--num-omp-threads   : Number of OMP threads to use (<=4)."
       echo -e "\t-S|--systlist       : Systematic list specifier: default =\"allsyst\""
       echo -e "\t-e|--samplelist     : Sample and exposure specifier: default = \"ndfd\""
@@ -202,7 +212,7 @@ else
 fi
 
 cat throws_master.sh.in > configuring.throws_master.sh.in
-for i in QOS TIME_REQ_EM TIME_REQ_M TIME_REQ_H NNODES TASKSPERNODE SYSTLIST SAMPLELIST PENALTY HIERARCHY OSCVARS UNITSAFETIME_M JOBNAME CAFEEXE NTHREADS USEVQUIET ARRAYCMD SEED_START CONSTRAINT IMAGE; do
+for i in QOS TIME_REQ_EM TIME_REQ_M TIME_REQ_H NNODES TASKSPERNODE SYSTLIST SAMPLELIST PENALTY HIERARCHY OSCVARS UNITSAFETIME_M JOBNAME CAFEEXE NTHREADS USEVQUIET ARRAYCMD RESERVECMD SEED_START CONSTRAINT IMAGE; do
   sed -i "s|__${i}__|${OPTS[${i}]}|g" configuring.throws_master.sh.in
 done
 

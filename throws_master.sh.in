@@ -1,5 +1,6 @@
 #!/bin/bash
 #SBATCH --account=dune
+__RESERVECMD__
 #SBATCH --qos=__QOS__
 #SBATCH --constraint=__CONSTRAINT__
 #SBATCH --nodes=__NNODES__
