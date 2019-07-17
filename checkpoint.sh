@@ -71,9 +71,9 @@ function make_checkpoint() {
 
 echo "[CHK-INFO]: Let's do some checkpointing on job ${SLURM_JOB_ID} node ${SLURM_NODEID}. Checkpointing every ${CHECKFREQ_S} seconds @ $(date '+%Y_%m_%d-%H_%M_%S')"
 
-DECICHECKFREQ_S=$(( CHECKFREQ_S / 10 ))
+DECICHECKFREQ_S=$(( CHECKFREQ_S / 20 ))
 while true; do
-  for i in {0..9}; do
+  for i in {0..19}; do
       sleep ${DECICHECKFREQ_S}
       check_live
   done
