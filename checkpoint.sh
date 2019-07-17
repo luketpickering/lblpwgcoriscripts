@@ -77,6 +77,5 @@ while true; do
       sleep ${DECICHECKFREQ_S}
       check_live
   done
-  sleep ${DECICHECKFREQ_S}
   make_checkpoint
 done
