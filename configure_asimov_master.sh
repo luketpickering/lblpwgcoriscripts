@@ -18,7 +18,7 @@ OPTS[JOBNAME]="CAFAna_Asimov"
 OPTS[NTHREADS]="2"
 OPTS[ARRAYCMD]=""
 OPTS[CONSTRAINT]="haswell"
-OPTS[IMAGE]="picker24/dune_cafana:SLS_wsf_wdeps_893a8cb"
+OPTS[IMAGE]="picker24/dune_cafana:SLS_wsf_wdeps_b3df9d6"
 OPTS[RESERVECMD]=""
 
 OUTPUTNAME="asimov_master.sh"

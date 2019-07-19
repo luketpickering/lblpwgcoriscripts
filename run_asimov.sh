@@ -49,7 +49,7 @@ if [ "${SLURM_LOCALID}" == "0" ]; then
     ${NODETMP}/checkfinish.sh asimov_joint ${CHKSCRIPT_FREQ_S} ${OUTDIR} ${NODETMP} > >(tee -a ${LOGFILE}) 2>&1 &
 fi
 
-OPTS="${STATESTUB} ${ASMVFILE} ${PLOTVARS}:$(( ${SLURM_PROCID} + 1 )) ${SYSTLIST} ${SAMPLELIST} ${PENALTY} ${HIERARCHY} ${ASIMOV_SET}"
+OPTS="${STATESTUB} ${ASMVFILE} ${PLOTVARS}:${SLURM_PROCID} ${SYSTLIST} ${SAMPLELIST} ${PENALTY} ${HIERARCHY} ${ASIMOV_SET}"
 
 echo "[RUN]: asimov_joint ${OPTS} @ $(date '+%Y_%m_%d-%H_%M_%S')" 2>&1 | tee -a ${LOGFILE}
 asimov_joint ${OPTS} 2>&1 | tee -a ${LOGFILE}
