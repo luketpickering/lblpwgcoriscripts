@@ -21,7 +21,7 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
       SYSTLIST_SANIT=$(echo $SYSTLIST | tr ':' '_' | tr '=' '-')
       ASMV_SET_SANIT=$(echo $ASMV_SET | tr ':' '-' | tr '/' '_' | sed 's/deltapi/dp/g')
       PLOTVARS_SANIT=$(echo $PLOTVARS | tr ':' '-' | tr '/' '_' | sed 's/deltapi/dp/g')
-      SAMPLE_SANIT=$(echo $SAMPLELIST | tr ':' '_')
+      SAMPLE_SANIT=$(echo $SAMPLE | tr ':' '_')
       JOBNAME="KNL_${PLOTVARS_SANIT}_${SYSTLIST_SANIT}_${SAMPLE_SANIT}_pen_${PEN}_${ASMV_SET_SANIT}"
 
       ./configure_asimov_master.sh \
@@ -47,16 +47,16 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
                       "deltapi:0,ssth23:0.42"\
                       "deltapi:+pi/2,ssth23:0.42" \
                       "deltapi:-pi/2,ssth23:0.5"\
-                      "deltapi:0,ssth23:0.5"
+                      "deltapi:0,ssth23:0.5" \
                       "deltapi:+pi/2,ssth23:0.5" \
                       "deltapi:-pi/2,ssth23:0.58"\
-                      "deltapi:0,ssth23:0.58"
+                      "deltapi:0,ssth23:0.58" \
                       "deltapi:+pi/2,ssth23:0.58"; do
 
       SYSTLIST_SANIT=$(echo $SYSTLIST | tr ':' '_' | tr '=' '-')
       ASMV_SET_SANIT=$(echo $ASMV_SET | tr ':' '-' | tr '/' '_' | sed 's/deltapi/dp/g')
       PLOTVARS_SANIT=$(echo $PLOTVARS | tr ':' '-' | tr '/' '_' | sed 's/deltapi/dp/g')
-      SAMPLE_SANIT=$(echo $SAMPLELIST | tr ':' '_')
+      SAMPLE_SANIT=$(echo $SAMPLE | tr ':' '_')
       JOBNAME="KNL_${PLOTVARS_SANIT}_${SYSTLIST_SANIT}_${SAMPLE_SANIT}_pen_${PEN}_${ASMV_SET_SANIT}"
 
       ./configure_asimov_master.sh \
@@ -84,7 +84,7 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
       SYSTLIST_SANIT=$(echo $SYSTLIST | tr ':' '_' | tr '=' '-')
       ASMV_SET_SANIT=$(echo $ASMV_SET | tr ':' '-' | tr '/' '_' | sed 's/deltapi/dp/g')
       PLOTVARS_SANIT=$(echo $PLOTVARS | tr ':' '-' | tr '/' '_' | sed 's/deltapi/dp/g')
-      SAMPLE_SANIT=$(echo $SAMPLELIST | tr ':' '_')
+      SAMPLE_SANIT=$(echo $SAMPLE | tr ':' '_')
       JOBNAME="KNL_${PLOTVARS_SANIT}_${SYSTLIST_SANIT}_${SAMPLE_SANIT}_pen_${PEN}_${ASMV_SET_SANIT}"
 
       ./configure_asimov_master.sh \
