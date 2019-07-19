@@ -1,0 +1,74 @@
+#!/bin/bash
+#SBATCH --account=dune
+__RESERVECMD__
+#SBATCH --qos=__QOS__
+#SBATCH --constraint=__CONSTRAINT__
+#SBATCH --nodes=__NNODES__
+#SBATCH --job-name=__JOBNAME__
+#SBATCH --image=__IMAGE__
+#SBATCH --volume=/global/project:/project
+#SBATCH --time=__TIME_REQ_H__:__TIME_REQ_EM__:00
+__ARRAYCMD__
+
+#Job settings:
+TIME_REQ_M=__TIME_REQ_M__
+PLOTVARS="__PLOTVARS__"
+SYSTLIST="__SYSTLIST__"
+SAMPLELIST="__SAMPLELIST__"
+PENALTY="__PENALTY__"
+HIERARCHY="__HIERARCHY__"
+ASIMOV_SET="__ASIMOV_SET__"
+JOBNAME="__JOBNAME__"
+
+#OpenMP settings:
+export OMP_NUM_THREADS=__NTHREADS__
+export OMP_PLACES=cores
+export OMP_PROC_BIND=spread
+
+#Output settings:
+SYSTLIST_SANIT=$(echo $SYSTLIST | tr ':' '_' | tr '=' '-')
+ASIMOV_SET_SANIT=$(echo $ASIMOV_SET | tr ':' '-' | tr '/' '_')
+PLOTVARS_SANIT=$(echo $PLOTVARS | tr ':' '-' | tr '/' '_')
+JOBNAME_SANIT=$(echo $JOBNAME | tr ' ' '_')
+SAMPLE_SANIT=$(echo $SAMPLELIST | tr ':' '_')
+export OUSERDIR=${USER}
+OUTDIR=/project/projectdirs/dune/users/${OUSERDIR}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PENALTY}/hie_${HIERARCHY}/$(date "+%Y_%m_%d-%H_%M_%S")/${SLURM_JOB_ID}
+mkdir -p ${OUTDIR}
+#SRUNLOGFILE="${OUTDIR}/throws_%t.log"
+SRUNLOGFILE=/dev/null
+
+echo "[INFO]: Job writing output to ${OUTDIR} and task logs to ${SRUNLOGFILE}."
+
+NTASKSTOTAL=200
+if [ "__CONSTRAINT__" == "haswell" ]; then
+  NCORESPERTASK=$(( 64 / __TASKSPERNODE__ ))
+  CPUBINDOPT="cores"
+  if [ "${NCORESPERTASK}" == "1" ]; then
+    CPUBINDOPT="threads"
+  fi
+elif [ "__CONSTRAINT__" == "knl" ]; then
+#  Actually doing the math, but stacking may end up odd if you let it floor
+#  NCORESPERTASK=$(( (68*4) / __TASKSPERNODE__ ))
+
+  if [ __TASKSPERNODE__ -lt 35 ]; then
+    NCORESPERTASK=8
+  else
+    NCORESPERTASK=4
+  fi
+  CPUBINDOPT="cores"
+fi
+
+if [ $(( __NNODES__ * __TASKSPERNODE__ )) -lt $(( NTASKSTOTAL )) ]; then
+  echo "[ERROR]: Not enough nodes requested, $(( __NNODES__ * __TASKSPERNODE__ )) < $(( NTASKSTOTAL )) "
+  exit 1
+fi
+
+echo "[INFO]: Running ${NTASKSTOTAL} ${SCRIPT} tasks, over __NNODES__, each with ${NCORESPERTASK} dedicated hyperthreads (execution using __NTHREADS__ threads). cpu binding set to ${CPUBINDOPT}"
+
+             # Tasks handle their own logging
+srun -n ${NTASKSTOTAL} -c ${NCORESPERTASK} \
+     --output=${SRUNLOGFILE} \
+     --cpu_bind=${CPUBINDOPT} \
+  shifter \
+    --module=none \
+    ./run_asimov.sh ${TIME_REQ_M} ${OUTDIR} ${PLOTVARS} ${SYSTLIST} ${SAMPLELIST} ${PENALTY} ${HIERARCHY} ${ASIMOV_SET}
