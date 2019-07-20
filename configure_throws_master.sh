@@ -2,7 +2,7 @@
 
 declare -A OPTS
 
-OPTS[QOS]="standard"
+OPTS[QOS]="regular"
 OPTS[TIME_REQ_H]="24"
 OPTS[TIME_REQ_EM]="00"
 OPTS[TIME_REQ_M]=$(( OPTS[TIME_REQ_H] * 60))
