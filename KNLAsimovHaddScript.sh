@@ -1,5 +1,18 @@
 #!/bin/bash
 
+function check(){
+  NJOBDIRS=$(ls ${1}/* | wc -l)
+  if [ ${NJOBDIRS} != "1" ]; then
+    echo "Found odd number of directories: ls ${1}/*"
+    return 1
+  fi
+
+  NROOTFILES=$(ls ${1}/*/*/*.root | wc -l)
+  echo "Found ${NROOTFILES} root files!"
+
+}
+
+
 RUNUSER=marshalc
 HIERARCHY=1
 
@@ -16,20 +29,19 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
 
     for ASMV_SET in "deltapi:-pi/2" "deltapi:0" "deltapi:+pi/2"; do
 
-        SYSTLIST_SANIT=$(echo $SYSTLIST | tr ':' '_' | tr '=' '-')
-        SAMPLE_SANIT=$(echo $SAMPLE | tr ':' '_')
-        ASIMOV_SET_SANIT=$(echo $ASMV_SET | tr ':' '-' | tr '/' '_')
-        PLOTVARS_SANIT=$(echo $PLOTVARS | tr ':' '-' | tr '/' '_')
+      SYSTLIST_SANIT=$(echo $SYSTLIST | tr ':' '_' | tr '=' '-')
+      SAMPLE_SANIT=$(echo $SAMPLE | tr ':' '_')
+      ASIMOV_SET_SANIT=$(echo $ASMV_SET | tr ':' '-' | tr '/' '_')
+      PLOTVARS_SANIT=$(echo $PLOTVARS | tr ':' '-' | tr '/' '_')
 
-        JN_ASMV_SET_SANIT=$(echo $ASMV_SET | tr ':' '-' | tr '/' '_' | sed 's/deltapi/dp/g')
-        JN_PLOTVARS_SANIT=$(echo $PLOTVARS | tr ':' '-' | tr '/' '_' | sed 's/deltapi/dp/g')
-        JOBNAME="KNL_${JN_PLOTVARS_SANIT}_${SYSTLIST_SANIT}_${SAMPLE_SANIT}_pen_${PEN}_${JN_ASMV_SET_SANIT}"
-        JOBNAME_SANIT=$(echo $JOBNAME | tr ' ' '_')
+      JN_ASMV_SET_SANIT=$(echo $ASMV_SET | tr ':' '-' | tr '/' '_' | sed 's/deltapi/dp/g')
+      JN_PLOTVARS_SANIT=$(echo $PLOTVARS | tr ':' '-' | tr '/' '_' | sed 's/deltapi/dp/g')
+      JOBNAME="KNL_${JN_PLOTVARS_SANIT}_${SYSTLIST_SANIT}_${SAMPLE_SANIT}_pen_${PEN}_${JN_ASMV_SET_SANIT}"
+      JOBNAME_SANIT=$(echo $JOBNAME | tr ' ' '_')
 
-        OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}/
+      OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}/
 
-      echo "[OUTPUTDIR]: ls $OUTPUTDIR"
-      ls $OUTPUTDIR/*
+      check $OUTPUTDIR
 
     done
 
@@ -58,8 +70,7 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
 
         OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}/
 
-        echo "[OUTPUTDIR]: ls $OUTPUTDIR"
-        ls $OUTPUTDIR/*
+        check $OUTPUTDIR
 
       done
 
@@ -80,8 +91,7 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
 
         OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}/
 
-        echo "[OUTPUTDIR]: ls $OUTPUTDIR"
-        ls $OUTPUTDIR/*
+        check $OUTPUTDIR
 
       done
 
