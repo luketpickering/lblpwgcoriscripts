@@ -16,14 +16,17 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
 
     for ASMV_SET in "deltapi:-pi/2" "deltapi:0" "deltapi:+pi/2"; do
 
-      SYSTLIST_SANIT=$(echo $SYSTLIST | tr ':' '_' | tr '=' '-')
-      SAMPLE_SANIT=$(echo $SAMPLE | tr ':' '_')
-      ASIMOV_SET_SANIT=$(echo $ASMV_SET | tr ':' '-' | tr '/' '_')
-      PLOTVARS_SANIT=$(echo $PLOTVARS | tr ':' '-' | tr '/' '_')
-      JOBNAME="KNL_${PLOTVARS_SANIT}_${SYSTLIST_SANIT}_${SAMPLE_SANIT}_pen_${PEN}_${ASIMOV_SET_SANIT}"
-      JOBNAME_SANIT=$(echo $JOBNAME | tr ' ' '_')
+        SYSTLIST_SANIT=$(echo $SYSTLIST | tr ':' '_' | tr '=' '-')
+        SAMPLE_SANIT=$(echo $SAMPLE | tr ':' '_')
+        ASIMOV_SET_SANIT=$(echo $ASMV_SET | tr ':' '-' | tr '/' '_')
+        PLOTVARS_SANIT=$(echo $PLOTVARS | tr ':' '-' | tr '/' '_')
 
-      OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}/
+        JN_ASMV_SET_SANIT=$(echo $ASMV_SET | tr ':' '-' | tr '/' '_' | sed 's/deltapi/dp/g')
+        JN_PLOTVARS_SANIT=$(echo $PLOTVARS | tr ':' '-' | tr '/' '_' | sed 's/deltapi/dp/g')
+        JOBNAME="KNL_${JN_PLOTVARS_SANIT}_${SYSTLIST_SANIT}_${SAMPLE_SANIT}_pen_${PEN}_${JN_ASMV_SET_SANIT}"
+        JOBNAME_SANIT=$(echo $JOBNAME | tr ' ' '_')
+
+        OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}/
 
       echo "[OUTPUTDIR]: ls $OUTPUTDIR"
       ls $OUTPUTDIR
@@ -47,7 +50,10 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
         SAMPLE_SANIT=$(echo $SAMPLE | tr ':' '_')
         ASIMOV_SET_SANIT=$(echo $ASMV_SET | tr ':' '-' | tr '/' '_')
         PLOTVARS_SANIT=$(echo $PLOTVARS | tr ':' '-' | tr '/' '_')
-        JOBNAME="KNL_${PLOTVARS_SANIT}_${SYSTLIST_SANIT}_${SAMPLE_SANIT}_pen_${PEN}_${ASIMOV_SET_SANIT}"
+
+        JN_ASMV_SET_SANIT=$(echo $ASMV_SET | tr ':' '-' | tr '/' '_' | sed 's/deltapi/dp/g')
+        JN_PLOTVARS_SANIT=$(echo $PLOTVARS | tr ':' '-' | tr '/' '_' | sed 's/deltapi/dp/g')
+        JOBNAME="KNL_${JN_PLOTVARS_SANIT}_${SYSTLIST_SANIT}_${SAMPLE_SANIT}_pen_${PEN}_${JN_ASMV_SET_SANIT}"
         JOBNAME_SANIT=$(echo $JOBNAME | tr ' ' '_')
 
         OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}/
@@ -66,7 +72,10 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
         SAMPLE_SANIT=$(echo $SAMPLE | tr ':' '_')
         ASIMOV_SET_SANIT=$(echo $ASMV_SET | tr ':' '-' | tr '/' '_')
         PLOTVARS_SANIT=$(echo $PLOTVARS | tr ':' '-' | tr '/' '_')
-        JOBNAME="KNL_${PLOTVARS_SANIT}_${SYSTLIST_SANIT}_${SAMPLE_SANIT}_pen_${PEN}_${ASIMOV_SET_SANIT}"
+
+        JN_ASMV_SET_SANIT=$(echo $ASMV_SET | tr ':' '-' | tr '/' '_' | sed 's/deltapi/dp/g')
+        JN_PLOTVARS_SANIT=$(echo $PLOTVARS | tr ':' '-' | tr '/' '_' | sed 's/deltapi/dp/g')
+        JOBNAME="KNL_${JN_PLOTVARS_SANIT}_${SYSTLIST_SANIT}_${SAMPLE_SANIT}_pen_${PEN}_${JN_ASMV_SET_SANIT}"
         JOBNAME_SANIT=$(echo $JOBNAME | tr ' ' '_')
 
         OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}/
