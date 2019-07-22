@@ -33,6 +33,10 @@ function check(){
   NROOTFILES=$(ls ${OUTDIR}/*/*/*.root 2>/dev/null | wc -l)
   echo "Found ${NROOTFILES} root files for ${EXPOSURE}, ${PVARS}, ${ASMV_DIRNAME}"
   if [ ${NROOTFILES} -gt 0 ]; then
+    if [ -e ${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ]; then
+      mv ${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ${TRASH}/
+    fi
+    
     hadd -k ${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ${OUTDIR}/*/*/*.root
 
     HNAME=$(echo ${PVARS} | sed "s/-/_/g")
