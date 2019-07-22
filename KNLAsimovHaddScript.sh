@@ -23,7 +23,7 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
       JOBNAME="KNL_${PLOTVARS_SANIT}_${SYSTLIST_SANIT}_${SAMPLE_SANIT}_pen_${PEN}_${ASIMOV_SET_SANIT}"
       JOBNAME_SANIT=$(echo $JOBNAME | tr ' ' '_')
 
-      OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PENALTY}/hie_${HIERARCHY}/
+      OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}/
 
       echo "[OUTPUTDIR]: ls $OUTPUTDIR"
       ls $OUTPUTDIR
@@ -50,7 +50,7 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
         JOBNAME="KNL_${PLOTVARS_SANIT}_${SYSTLIST_SANIT}_${SAMPLE_SANIT}_pen_${PEN}_${ASIMOV_SET_SANIT}"
         JOBNAME_SANIT=$(echo $JOBNAME | tr ' ' '_')
 
-        OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PENALTY}/hie_${HIERARCHY}/
+        OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}/
 
         echo "[OUTPUTDIR]: ls $OUTPUTDIR"
         ls $OUTPUTDIR
@@ -69,7 +69,7 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
         JOBNAME="KNL_${PLOTVARS_SANIT}_${SYSTLIST_SANIT}_${SAMPLE_SANIT}_pen_${PEN}_${ASIMOV_SET_SANIT}"
         JOBNAME_SANIT=$(echo $JOBNAME | tr ' ' '_')
 
-        OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PENALTY}/hie_${HIERARCHY}/
+        OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}/
 
         echo "[OUTPUTDIR]: ls $OUTPUTDIR"
         ls $OUTPUTDIR
