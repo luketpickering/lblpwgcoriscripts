@@ -8,10 +8,9 @@ function check(){
   fi
 
   NROOTFILES=$(ls ${1}/*/*/*.root | wc -l)
-  echo "Found ${NROOTFILES} root files!"
+  echo "Found ${NROOTFILES} root files for ${2}, ${3}, ${4}"
 
 }
-
 
 RUNUSER=marshalc
 HIERARCHY=1
@@ -39,9 +38,9 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
       JOBNAME="KNL_${JN_PLOTVARS_SANIT}_${SYSTLIST_SANIT}_${SAMPLE_SANIT}_pen_${PEN}_${JN_ASMV_SET_SANIT}"
       JOBNAME_SANIT=$(echo $JOBNAME | tr ' ' '_')
 
-      OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}/
+      OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}
 
-      check $OUTPUTDIR
+      check ${OUTPUTDIR} ${EXPOSURE} ${PLOTVARS_SANIT} ${ASIMOV_SET_SANIT}
 
     done
 
@@ -68,9 +67,9 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
         JOBNAME="KNL_${JN_PLOTVARS_SANIT}_${SYSTLIST_SANIT}_${SAMPLE_SANIT}_pen_${PEN}_${JN_ASMV_SET_SANIT}"
         JOBNAME_SANIT=$(echo $JOBNAME | tr ' ' '_')
 
-        OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}/
+        OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}
 
-        check $OUTPUTDIR
+        check ${OUTPUTDIR} ${EXPOSURE} ${PLOTVARS_SANIT} ${ASIMOV_SET_SANIT}
 
       done
 
@@ -89,9 +88,9 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
         JOBNAME="KNL_${JN_PLOTVARS_SANIT}_${SYSTLIST_SANIT}_${SAMPLE_SANIT}_pen_${PEN}_${JN_ASMV_SET_SANIT}"
         JOBNAME_SANIT=$(echo $JOBNAME | tr ' ' '_')
 
-        OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}/
+        OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}
 
-        check $OUTPUTDIR
+        check ${OUTPUTDIR} ${EXPOSURE} ${PLOTVARS_SANIT} ${ASIMOV_SET_SANIT}
 
       done
 
