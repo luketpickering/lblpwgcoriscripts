@@ -29,7 +29,7 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
         OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}/
 
       echo "[OUTPUTDIR]: ls $OUTPUTDIR"
-      ls $OUTPUTDIR
+      ls $OUTPUTDIR/*
 
     done
 
@@ -59,7 +59,7 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
         OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}/
 
         echo "[OUTPUTDIR]: ls $OUTPUTDIR"
-        ls $OUTPUTDIR
+        ls $OUTPUTDIR/*
 
       done
 
@@ -81,7 +81,7 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
         OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}/
 
         echo "[OUTPUTDIR]: ls $OUTPUTDIR"
-        ls $OUTPUTDIR
+        ls $OUTPUTDIR/*
 
       done
 
