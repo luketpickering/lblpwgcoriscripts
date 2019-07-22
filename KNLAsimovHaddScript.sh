@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HADDOUTDIR=/project/projectdirs/dune/users/${USER}/CAFAnaJobAsimovOutput/
+HADDOUTDIR=/project/projectdirs/dune/users/${USER}/CAFAnaJobAsimovOutput
 
 mkdir -p ${HADDOUTDIR}
 
@@ -28,6 +28,9 @@ function check(){
   echo "Found ${NROOTFILES} root files for ${EXPOSURE}, ${PVARS}, ${ASMV_DIRNAME}"
   if [ ${NROOTFILES} -gt 0 ]; then
     hadd -k ${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ${OUTDIR}/*/*/*.root
+
+    HNAME=$(echo ${PVARS} | sed "s/-/_/g")
+    root -l cat_asimovs.C ${HADDOUTDIR}/KNLAsmiovs.root ${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ${HNAME} ${HNAME} ${EXPOSURE} ${ASMV_DIRNAME}
   fi
 
 }
