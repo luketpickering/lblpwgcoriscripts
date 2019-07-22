@@ -15,9 +15,9 @@ void cat_asimovs(char const *outputfile, char const *inputfile, char const *inpu
   TFile *fout = TFile::Open(outputfile,"UPDATE");
   fout->cd();
 
-  gDirectory->Mkdir(varsdir)->cd();
-  gDirectory->Mkdir(expdir)->cd();
-  gDirectory->Mkdir(asmdir)->cd();
+  gDirectory->mkdir(varsdir)->cd();
+  gDirectory->mkdir(expdir)->cd();
+  gDirectory->mkdir(asmdir)->cd();
 
   gDirectory->WriteTObject(hin);
 

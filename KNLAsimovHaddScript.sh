@@ -4,6 +4,10 @@ HADDOUTDIR=/project/projectdirs/dune/users/${USER}/CAFAnaJobAsimovOutput
 
 mkdir -p ${HADDOUTDIR}
 
+if [ -e ${HADDOUTDIR}/KNLAsmiovs.root ]; then
+  rm ${HADDOUTDIR}/KNLAsmiovs.root
+fi
+
 TRASH=/project/projectdirs/dune/users/${USER}/CAFAnaJobTrash/AsimovHadd
 mkdir -p ${TRASH}
 
@@ -32,7 +36,7 @@ function check(){
     hadd -k ${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ${OUTDIR}/*/*/*.root
 
     HNAME=$(echo ${PVARS} | sed "s/-/_/g")
-    root -l cat_asimovs.C ${HADDOUTDIR}/KNLAsmiovs.root ${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ${HNAME} ${HNAME} ${EXPOSURE} ${ASMV_DIRNAME}
+    root -l -b -q cat_asimovs.C ${HADDOUTDIR}/KNLAsmiovs.root ${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ${HNAME} ${HNAME} ${EXPOSURE} ${ASMV_DIRNAME}
   fi
 
 }
