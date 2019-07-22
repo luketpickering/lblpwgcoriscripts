@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobAsimovOutput/
+OUTPUTDIR=/project/projectdirs/dune/users/${USER}/CAFAnaJobAsimovOutput/
 
 mkdir -p ${OUTPUTDIR}
 
