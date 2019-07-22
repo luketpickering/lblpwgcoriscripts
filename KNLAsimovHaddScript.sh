@@ -1,8 +1,8 @@
 #!/bin/bash
 
-OUTPUTDIR=/project/projectdirs/dune/users/${USER}/CAFAnaJobAsimovOutput/
+HADDOUTDIR=/project/projectdirs/dune/users/${USER}/CAFAnaJobAsimovOutput/
 
-mkdir -p ${OUTPUTDIR}
+mkdir -p ${HADDOUTDIR}
 
 function check(){
 
@@ -22,7 +22,7 @@ function check(){
   NROOTFILES=$(ls ${OUTDIR}/*/*/*.root 2>/dev/null | wc -l)
   echo "Found ${NROOTFILES} root files for ${EXPOSURE}, ${PVARS}, ${ASMV_DIRNAME}"
   if [ ${NROOTFILES} -gt 0 ]; then
-    hadd -k ${OUTPUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ${OUTDIR}/*/*/*.root
+    hadd -k ${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ${OUTDIR}/*/*/*.root
   fi
 
 }
