@@ -19,17 +19,17 @@ void cat_asimovs(char const *outputfile, char const *inputfile,
   fout->cd();
 
   if (!gDirectory->GetDirectory(varsdir)) {
-    gDirectory->mkdir(varsdir)
+    gDirectory->mkdir(varsdir);
   }
   gDirectory->GetDirectory(varsdir)->cd();
 
   if (!gDirectory->GetDirectory(expdir)) {
-    gDirectory->mkdir(expdir)
+    gDirectory->mkdir(expdir);
   }
   gDirectory->GetDirectory(expdir)->cd();
 
   if (!gDirectory->GetDirectory(asmdir)) {
-    gDirectory->mkdir(asmdir)
+    gDirectory->mkdir(asmdir);
   }
   gDirectory->GetDirectory(asmdir)->cd();
 
