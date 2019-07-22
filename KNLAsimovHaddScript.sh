@@ -1,14 +1,22 @@
 #!/bin/bash
 
 function check(){
-  NJOBDIRS=$(ls ${1}/* | wc -l)
+
+  OUTDIR=${1}
+  EXPOSURE=${2}
+  PVARS=${3}
+  ASMV=${4}
+
+  ASMV_DIRNAME=$(echo ${ASMV} | sed "s/+pi/ppi/g" | sed "s/-pi/mpi/g" | sed "s/-/_/g"  | sed "s/,/__/g")
+
+  NJOBDIRS=$(ls ${OUTDIR}/* | wc -l)
   if [ ${NJOBDIRS} != "1" ]; then
-    echo "Found odd number of directories: ls ${1}/*"
+    echo "Found odd number of directories: ls ${OUTDIR}/*"
     return 1
   fi
 
-  NROOTFILES=$(ls ${1}/*/*/*.root | wc -l)
-  echo "Found ${NROOTFILES} root files for ${2}, ${3}, ${4}"
+  NROOTFILES=$(ls ${1}/*/*/*.root 2>/dev/null | wc -l)
+  echo "Found ${NROOTFILES} root files for ${EXPOSURE}, ${PVARS}, ${ASMV_DIRNAME}"
 
 }
 
