@@ -11,7 +11,7 @@ function check(){
   PVARS=${3}
   ASMV=${4}
 
-  ASMV_DIRNAME=$(echo ${ASMV} | sed "s/+pi/ppi/g" | sed "s/-pi/mpi/g" | sed "s/-/_/g"  | sed "s/,/__/g" | sed "s/./_/g")
+  ASMV_DIRNAME=$(echo ${ASMV} | sed "s/+pi/ppi/g" | sed "s/-pi/mpi/g" | sed "s/-/_/g"  | sed "s/,/__/g" | sed "s/\./_/g")
 
   NJOBDIRS=$(ls ${OUTDIR}/* | wc -l)
   if [ ${NJOBDIRS} != "1" ]; then
