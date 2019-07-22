@@ -16,7 +16,9 @@ function check(){
 
   ASMV_DIRNAME=$(echo ${ASMV} | sed "s/+pi/ppi/g" | sed "s/-pi/mpi/g" | sed "s/-/_/g"  | sed "s/,/__/g" | sed "s/\./_/g")
 
-  mv ${OUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ${TRASH}/
+  if [ -e ${OUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ]; then
+    mv ${OUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ${TRASH}/
+  fi
 
   NJOBDIRS=$(ls ${OUTDIR}/* | wc -l)
   if [ ${NJOBDIRS} != "1" ]; then
