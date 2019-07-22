@@ -1,5 +1,9 @@
 #!/bin/bash
 
+OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobAsimovOutput/
+
+mkdir -p ${OUTPUTDIR}
+
 function check(){
 
   OUTDIR=${1}
@@ -7,7 +11,7 @@ function check(){
   PVARS=${3}
   ASMV=${4}
 
-  ASMV_DIRNAME=$(echo ${ASMV} | sed "s/+pi/ppi/g" | sed "s/-pi/mpi/g" | sed "s/-/_/g"  | sed "s/,/__/g")
+  ASMV_DIRNAME=$(echo ${ASMV} | sed "s/+pi/ppi/g" | sed "s/-pi/mpi/g" | sed "s/-/_/g"  | sed "s/,/__/g" | sed "s/./_/g")
 
   NJOBDIRS=$(ls ${OUTDIR}/* | wc -l)
   if [ ${NJOBDIRS} != "1" ]; then
@@ -15,8 +19,11 @@ function check(){
     return 1
   fi
 
-  NROOTFILES=$(ls ${1}/*/*/*.root 2>/dev/null | wc -l)
+  NROOTFILES=$(ls ${OUTDIR}/*/*/*.root 2>/dev/null | wc -l)
   echo "Found ${NROOTFILES} root files for ${EXPOSURE}, ${PVARS}, ${ASMV_DIRNAME}"
+  if [ ${NROOTFILES} -gt 0 ]; then
+    hadd -k ${OUTPUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ${OUTDIR}/*/*/*.root
+  fi
 
 }
 
