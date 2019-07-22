@@ -36,7 +36,7 @@ function check(){
     hadd -k ${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ${OUTDIR}/*/*/*.root
 
     HNAME=$(echo ${PVARS} | sed "s/-/_/g")
-    root -l -b -q cat_asimovs.C ${HADDOUTDIR}/KNLAsmiovs.root ${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ${HNAME} ${HNAME} ${EXPOSURE} ${ASMV_DIRNAME}
+    root -l -b -q "cat_asimovs.C(\"${HADDOUTDIR}/KNLAsmiovs.root\",\"${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root\",\"${HNAME}\",\"${HNAME}\",\"${EXPOSURE}\",\"${ASMV_DIRNAME}\")"
   fi
 
 }
