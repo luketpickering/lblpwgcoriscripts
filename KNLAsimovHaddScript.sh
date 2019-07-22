@@ -4,6 +4,9 @@ HADDOUTDIR=/project/projectdirs/dune/users/${USER}/CAFAnaJobAsimovOutput/
 
 mkdir -p ${HADDOUTDIR}
 
+TRASH=/project/projectdirs/dune/users/${USER}/CAFAnaJobTrash/AsimovHadd
+mkdir -p ${TRASH}
+
 function check(){
 
   OUTDIR=${1}
@@ -12,6 +15,8 @@ function check(){
   ASMV=${4}
 
   ASMV_DIRNAME=$(echo ${ASMV} | sed "s/+pi/ppi/g" | sed "s/-pi/mpi/g" | sed "s/-/_/g"  | sed "s/,/__/g" | sed "s/\./_/g")
+
+  mv ${OUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ${TRASH}/
 
   NJOBDIRS=$(ls ${OUTDIR}/* | wc -l)
   if [ ${NJOBDIRS} != "1" ]; then
