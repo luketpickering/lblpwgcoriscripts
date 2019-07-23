@@ -21,10 +21,6 @@ function check(){
 
   ASMV_DIRNAME=$(echo ${ASMV} | sed "s/+pi/ppi/g" | sed "s/-pi/mpi/g" | sed "s/-/_/g"  | sed "s/,/__/g" | sed "s/\./_/g")
 
-  if [ -e ${OUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ]; then
-    mv ${OUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ${TRASH}/
-  fi
-
   NJOBDIRS=$(ls ${OUTDIR}/* | wc -l)
   if [ ${NJOBDIRS} != "1" ]; then
     echo "Found odd number of directories: ls ${OUTDIR}/*"
@@ -34,14 +30,11 @@ function check(){
   NROOTFILES=$(ls ${OUTDIR}/*/*/*.root 2>/dev/null | wc -l)
   echo "Found ${NROOTFILES} root files for ${EXPOSURE}, ${PVARS}, ${ASMV_DIRNAME}"
   if [ ${NROOTFILES} -gt 0 ]; then
-    if [ -e ${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ]; then
-      mv ${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ${TRASH}/
-    fi
 
-    hadd -k ${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ${OUTDIR}/*/*/*.root
+    hadd -k ${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}_${PEN}.root ${OUTDIR}/*/*/*.root
 
     HNAME=$(echo ${PVARS} | sed "s/-/_/g")
-    root -l -b -q "cat_asimovs.C(\"${HADDOUTDIR}/KNLAsmiovs.root\",\"${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root\",\"${HNAME}_${PEN}\",\"${HNAME}\",\"${EXPOSURE}\",\"${ASMV_DIRNAME}\")"
+    root -l -b -q "cat_asimovs.C(\"${HADDOUTDIR}/KNLAsmiovs.root\",\"${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}_${PEN}.root\",\"${HNAME}_${PEN}\",\"${HNAME}\",\"${EXPOSURE}\",\"${ASMV_DIRNAME}\")"
   fi
 
 }
