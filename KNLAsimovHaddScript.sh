@@ -16,7 +16,8 @@ function check(){
   OUTDIR=${1}
   EXPOSURE=${2}
   PVARS=${3}
-  ASMV=${4}
+  PEN=${4}
+  ASMV=${5}
 
   ASMV_DIRNAME=$(echo ${ASMV} | sed "s/+pi/ppi/g" | sed "s/-pi/mpi/g" | sed "s/-/_/g"  | sed "s/,/__/g" | sed "s/\./_/g")
 
@@ -36,11 +37,11 @@ function check(){
     if [ -e ${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ]; then
       mv ${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ${TRASH}/
     fi
-    
+
     hadd -k ${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root ${OUTDIR}/*/*/*.root
 
     HNAME=$(echo ${PVARS} | sed "s/-/_/g")
-    root -l -b -q "cat_asimovs.C(\"${HADDOUTDIR}/KNLAsmiovs.root\",\"${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root\",\"${HNAME}\",\"${HNAME}\",\"${EXPOSURE}\",\"${ASMV_DIRNAME}\")"
+    root -l -b -q "cat_asimovs.C(\"${HADDOUTDIR}/KNLAsmiovs.root\",\"${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}.root\",\"${HNAME}_${PEN}\",\"${HNAME}\",\"${EXPOSURE}\",\"${ASMV_DIRNAME}\")"
   fi
 
 }
@@ -73,7 +74,7 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
 
       OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}
 
-      check ${OUTPUTDIR} ${EXPOSURE} ${PLOTVARS_SANIT} ${ASIMOV_SET_SANIT}
+      check ${OUTPUTDIR} ${EXPOSURE} ${PLOTVARS_SANIT} ${PEN} ${ASIMOV_SET_SANIT}
 
     done
 
@@ -102,7 +103,7 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
 
         OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}
 
-        check ${OUTPUTDIR} ${EXPOSURE} ${PLOTVARS_SANIT} ${ASIMOV_SET_SANIT}
+        check ${OUTPUTDIR} ${EXPOSURE} ${PLOTVARS_SANIT} ${PEN} ${ASIMOV_SET_SANIT}
 
       done
 
@@ -123,7 +124,7 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
 
         OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}
 
-        check ${OUTPUTDIR} ${EXPOSURE} ${PLOTVARS_SANIT} ${ASIMOV_SET_SANIT}
+        check ${OUTPUTDIR} ${EXPOSURE} ${PLOTVARS_SANIT} ${PEN} ${ASIMOV_SET_SANIT}
 
       done
 
