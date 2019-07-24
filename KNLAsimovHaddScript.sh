@@ -14,7 +14,7 @@ mkdir -p ${TRASH}
 function check(){
 
   OUTDIR=${1}
-  EXPOSURE=${2}
+  SAMPLE=${2}
   PVARS=${3}
   PEN=${4}
   ASMV=${5}
@@ -28,13 +28,13 @@ function check(){
   fi
 
   NROOTFILES=$(ls ${OUTDIR}/*/*/*.root 2>/dev/null | wc -l)
-  echo "Found ${NROOTFILES} root files for ${EXPOSURE}, ${PVARS}, ${ASMV_DIRNAME}"
+  echo "Found ${NROOTFILES} root files for ${SAMPLE}, ${PVARS}, ${ASMV_DIRNAME}"
   if [ ${NROOTFILES} -gt 0 ]; then
 
-    hadd -k ${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}_${PEN}.root ${OUTDIR}/*/*/*.root
+    hadd -k ${HADDOUTDIR}/${PVARS}_${SAMPLE}_${ASMV_DIRNAME}_${PEN}.root ${OUTDIR}/*/*/*.root
 
     HNAME=$(echo ${PVARS} | sed "s/-/_/g")
-    root -l -b -q "cat_asimovs.C(\"${HADDOUTDIR}/KNLAsmiovs.root\",\"${HADDOUTDIR}/${PVARS}_${EXPOSURE}_${ASMV_DIRNAME}_${PEN}.root\",\"${HNAME}\",\"${HNAME}_${PEN}\",\"${EXPOSURE}\",\"${ASMV_DIRNAME}\")"
+    root -l -b -q "cat_asimovs.C(\"${HADDOUTDIR}/KNLAsmiovs.root\",\"${HADDOUTDIR}/${PVARS}_${SAMPLE}_${ASMV_DIRNAME}_${PEN}.root\",\"${HNAME}\",\"${HNAME}_${PEN}\",\"${SAMPLE}\",\"${ASMV_DIRNAME}\")"
   fi
 
 }
@@ -67,7 +67,7 @@ for sample_syst in fd,allsyst ndfd,allsyst; do
 
       OUTPUTDIR=/project/projectdirs/dune/users/${RUNUSER}/CAFAnaJobOutput/${JOBNAME_SANIT}/plot_${PLOTVARS_SANIT}/asimov_${ASIMOV_SET_SANIT}/syst_${SYSTLIST_SANIT}/samp_${SAMPLE_SANIT}/pen_${PEN}/hie_${HIERARCHY}
 
-      check ${OUTPUTDIR} ${EXPOSURE} ${PLOTVARS_SANIT} ${PEN} ${ASIMOV_SET_SANIT}
+      check ${OUTPUTDIR} $(echo ${sample_syst} | cut -d "," -f 1)_${EXPOSURE} ${PLOTVARS_SANIT} ${PEN} ${ASIMOV_SET_SANIT}
 
     done
 
