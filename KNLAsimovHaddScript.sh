@@ -14,9 +14,9 @@ mkdir -p ${TRASH}
 function check(){
 
   OUTDIR=${1}
-  SAMPLE=${2}
+  SMP=${2}
   PVARS=${3}
-  PEN=${4}
+  PENALTY=${4}
   ASMV=${5}
 
   ASMV_DIRNAME=$(echo ${ASMV} | sed "s/+pi/ppi/g" | sed "s/-pi/mpi/g" | sed "s/-/_/g"  | sed "s/,/__/g" | sed "s/\./_/g")
@@ -28,13 +28,13 @@ function check(){
   fi
 
   NROOTFILES=$(ls ${OUTDIR}/*/*/*.root 2>/dev/null | wc -l)
-  echo "Found ${NROOTFILES} root files for ${SAMPLE}, ${PVARS}, ${ASMV_DIRNAME}"
+  echo "Found ${NROOTFILES} root files for ${SMP}, ${PVARS}, ${ASMV_DIRNAME}"
   if [ ${NROOTFILES} -gt 0 ]; then
 
-    hadd -k ${HADDOUTDIR}/${PVARS}_${SAMPLE}_${ASMV_DIRNAME}_${PEN}.root ${OUTDIR}/*/*/*.root
+    hadd -k ${HADDOUTDIR}/${PVARS}_${SMP}_${ASMV_DIRNAME}_${PENALTY}.root ${OUTDIR}/*/*/*.root
 
     HNAME=$(echo ${PVARS} | sed "s/-/_/g")
-    root -l -b -q "cat_asimovs.C(\"${HADDOUTDIR}/KNLAsmiovs.root\",\"${HADDOUTDIR}/${PVARS}_${SAMPLE}_${ASMV_DIRNAME}_${PEN}.root\",\"${HNAME}\",\"${HNAME}_${PEN}\",\"${SAMPLE}\",\"${ASMV_DIRNAME}\")"
+    root -l -b -q "cat_asimovs.C(\"${HADDOUTDIR}/KNLAsmiovs.root\",\"${HADDOUTDIR}/${PVARS}_${SMP}_${ASMV_DIRNAME}_${PENALTY}.root\",\"${HNAME}\",\"${HNAME}_${PENALTY}\",\"${SAMPLE}\",\"${ASMV_DIRNAME}\")"
   fi
 
 }
