@@ -11,6 +11,8 @@ fi
 TRASH=/project/projectdirs/dune/users/${USER}/CAFAnaJobTrash/AsimovHadd
 mkdir -p ${TRASH}
 
+rm  Missing.list
+
 function check(){
 
   OUTDIR=${1}
@@ -35,6 +37,8 @@ function check(){
 
     HNAME=$(echo ${PVARS} | sed "s/-/_/g")
     root -l -b -q "cat_asimovs.C(\"${HADDOUTDIR}/KNLAsmiovs.root\",\"${HADDOUTDIR}/${PVARS}_${SMP}_${ASMV_DIRNAME}_${PENALTY}.root\",\"${HNAME}\",\"${HNAME}_${PENALTY}\",\"${SMP}\",\"${ASMV_DIRNAME}\")"
+  else
+    echo "${PVARS} ${SMP} ${PENALTY} ${ASMV}" >> Missing.list
   fi
 
 }
